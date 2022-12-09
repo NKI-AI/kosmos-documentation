@@ -1,3 +1,8 @@
+=================
+Slurm usage guide
+=================
+
+.. contents::
 
 Introduction
 ------------
@@ -16,7 +21,7 @@ Cluster state with sinfo
 
 To "see" the cluster, ssh to the slurm login node for your cluster and run the ``sinfo`` command:
 
-.. code-block:: java
+.. code-block:: bash
 
    $ sinfo
    PARTITION AVAIL  TIMELIMIT   NODES  STATE NODELIST
@@ -25,7 +30,7 @@ To "see" the cluster, ssh to the slurm login node for your cluster and run the `
 
 There are 2 nodes available on this system, one in\ ``idle`` and one in ``mix`` state, which means the node is partly available. There is a time limit per job of 7 days. This can be changed by an administrator for running jobs. If a node is completely busy, its state will change from ``idle`` to ``alloc``\ :
 
-.. code-block:: java
+.. code-block:: bash
 
    $ sinfo
    PARTITION AVAIL   TIMELIMIT   NODES  STATE NODELIST
@@ -39,7 +44,7 @@ Running a job with srun
 
 To run a job, use the ``srun`` command:
 
-.. code-block:: java
+.. code-block:: bash
 
    $ srun hostname
    ptolemaeus
@@ -48,14 +53,14 @@ What happened here? With the ``srun`` command we instructed slurm to find the fi
 
 Most of the time, scheduling on a full system is not necessary and it's better to request only a certain portion of the GPUs:
 
-.. code-block:: java
+.. code-block:: bash
 
    $ srun --gres=gpu:2 env | grep CUDA
    CUDA_VISIBLE_DEVICES=0,1
 
 Or, conversely, sometimes it's necessary to run on multiple systems:
 
-.. code-block:: java
+.. code-block:: bash
 
    $ srun --ntasks 2 -l hostname
    ptolemaeus
@@ -66,7 +71,7 @@ Running an interactive job
 
 Especially when developing and experimenting, it's helpful to run an interactive job, which requests a resource and provides a command prompt as an interface to it:
 
-.. code-block:: java
+.. code-block:: bash
 
    slurm-login:~$ srun --pty /bin/bash
    ptolemaeus~$ hostname
@@ -92,7 +97,7 @@ Run a batch job
 
 While the ``srun`` command blocks any other execution in the terminal, ``sbatch`` can be run to queue a job for execution once resources are available in the cluster. Also, a batch job will let you queue up several jobs that run as nodes become available. It's therefore good practice to encapsulate everything that needs to be run into a script and then execute with ``sbatch`` vs with ``srun``\ :
 
-.. code-block:: java
+.. code-block:: bash
 
    $ cat script.sh
    #!/bin/bash
@@ -105,7 +110,7 @@ Observing running jobs with ``squeue``
 
 To see which jobs are running in the cluster, use the ``squeue`` command:
 
-.. code-block:: java
+.. code-block:: bash
 
    $ squeue -a -l
    Tue Nov 17 19:08:18 2020
@@ -114,13 +119,13 @@ To see which jobs are running in the cluster, use the ``squeue`` command:
 
 To see just the running jobs for a particular user ``USERNAME``\ :
 
-.. code-block:: java
+.. code-block:: bash
 
    $ squeue -l -u USERNAME
 
 Sometimes when the cluster experiences a lot of traffic, your job will not start immediately, but instead it will have to wait until one of the nodes become available. In order to see what is the estimated start time of your jobs, run the following command:
 
-.. code-block:: java
+.. code-block:: bash
 
    $ squeue -u USERNAME --start
    JOBID PARTITION     NAME     USER ST          START_TIME  NODES SCHEDNODES           NODELIST(REASON)
@@ -137,7 +142,7 @@ This section discusses more advanced ``squeue`` commands which aren't essential 
 
 Consider this scenario: You just finished writing a job script to train your model for the next 8 hours and submit it to the cluster in the evening, hoping to see its results the next day. However, in the morning you realize there was a small bug in your script that caused the job to fail after 30 seconds and now you have to fix it, resubmit and wait 8 hours again. To prevent such disappointments, it’s good to check if the job is running at least for a couple minutes after submitting to make sure there aren’t any immediate errors. This can be done using the ``watch`` command in Linux that allows to rerun any command in a specified time interval (by default, every 2 seconds). The following will show your running jobs and update every 2 seconds, so if any of your jobs disappears from this view, it means it finished (either completed successfully, or failed):
 
-.. code-block:: java
+.. code-block:: bash
 
    $ watch squeue -u USERNAME
    Every 2.0s: squeue -u b.dolicki                                                                                                                         
@@ -148,7 +153,7 @@ Consider this scenario: You just finished writing a job script to train your mod
 
 When running many jobs it helps to see their names in ``squeue`` to keep track of what you're running. In the view below, the names are truncated. To see full names you can increase the width of particular columns by specifying ``--format``\ :
 
-.. code-block:: java
+.. code-block:: bash
 
    $ squeue -u USERNAME --format="%.18i %.9P %.30j %.8u %.8T %.10M %.15l %.6D %R"             
                 JOBID PARTITION                           NAME     USER    STATE       TIME      TIME_LIMIT  NODES NODELIST(REASON)
@@ -162,7 +167,7 @@ Cancel a job with ``scancel``
 
 To cancel a job, use the ``squeue`` command to look up the JOBID and the ``scancel`` command to cancel it:
 
-.. code-block:: java
+.. code-block:: bash
 
    $ squeue
    $ scancel JOBID
@@ -172,7 +177,7 @@ Running an MPI job
 
 To run a deep learning job with multiple processes, use MPI:
 
-.. code-block:: java
+.. code-block:: bash
 
    $ srun -p PARTITION --pty /bin/bash
    $ singularity pull docker://nvcr.io/nvidia/tensorflow:19.05-py3

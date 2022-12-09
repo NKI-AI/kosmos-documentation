@@ -1,21 +1,10 @@
+============
+Introduction
+============
+
+.. contents::
 
 The AI for Oncology group has a compute cluster in the NKI data center named Kosmos.
-
-/*<![CDATA[*/ div.rbtoc1670582129811 {padding: 0px;} div.rbtoc1670582129811 ul {list-style: disc;margin-left: 0px;} div.rbtoc1670582129811 li {margin-left: 0px;padding-left: 0px;} /*]]>*/
-
-
-* `Resource sharing <#Computecluster@NKI(Kosmos>`_\ -Resourcesharing)
-* `Hardware <#Computecluster@NKI(Kosmos>`_\ -Hardware)
-
-  * `GPU nodes <#Computecluster@NKI(Kosmos>`_\ -GPUnodes)
-  * `Storage nodes <#Computecluster@NKI(Kosmos>`_\ -Storagenodes)
-  * `CPU nodes <#Computecluster@NKI(Kosmos>`_\ -CPUnodes)
-
-* `Hardware or configuration errors <#Computecluster@NKI(Kosmos>`_\ -Hardwareorconfigurationerrors)
-* `Installed software <#Computecluster@NKI(Kosmos>`_\ -Installedsoftware)
-
-  * `Useful commands <#Computecluster@NKI(Kosmos>`_\ -Usefulcommands)
-  * `Installed software <#Computecluster@NKI(Kosmos>`_\ -Installedsoftware.1)
 
 Resource sharing
 ================

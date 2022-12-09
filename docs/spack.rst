@@ -1,14 +1,13 @@
+===========
+Spack usage
+===========
+
+.. contents::
 
 In order to use the compute nodes for training your models, start interactive sessions or use the remote debugging on pycharm, you may want to use some system libraries specific to your application. On RHPC, this is managed by a `package manager <https://nki-research-it.atlassian.net/wiki/spaces/NKIAI/pages/1984233497/Compute+cluster+NKI+Kosmos#Installed-software>`_ called ``spack``. This article will guide you to properly load the system packages you want to use while using the compute nodes.
 
 For illustration, we will consider three user-specific system packages ``pyvips``\ , ``openslide`` and ``pixman``\ , and CUDA drivers which are generally necessary for everyone.
 
-
-* `An important environment variable <#Loadingsystempackagesoncomputenodesusingspack-Animportantenvironmentvariable>`_
-* `Loading the right CUDA drivers <#Loadingsystempackagesoncomputenodesusingspack-LoadingtherightCUDAdrivers>`_
-* `Loading user-specific system packages <#Loadingsystempackagesoncomputenodesusingspack-Loadinguser-specificsystempackages>`_
-* `Resetting the python interpreter <#Loadingsystempackagesoncomputenodesusingspack-Resettingthepythoninterpreter>`_
-* `Setting the library paths in the pycharm remote debugger <#Loadingsystempackagesoncomputenodesusingspack-Settingthelibrarypathsinthepycharmremotedebugger>`_
 
 An important environment variable
 ---------------------------------

@@ -1,3 +1,8 @@
+==============================
+Connecting to the RHPC cluster
+==============================
+
+.. contents::
 
 Get access and login to the servers
 -----------------------------------

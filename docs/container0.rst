@@ -2,22 +2,6 @@
    :format: html
 
 
-/*<![CDATA[*/ div.rbtoc1670582120051 {padding: 0px;} div.rbtoc1670582120051 ul {list-style: disc;margin-left: 0px;} div.rbtoc1670582120051 li {margin-left: 0px;padding-left: 0px;} /*]]>*/
-
-
-* `1. From building the Dockerfile to using the singularity container <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-1.FrombuildingtheDockerfiletousingthesingularitycontainer>`_
-
-  * `1. Build the docker container with docker build <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-1.Buildthedockercontainerwithdockerbuild>`_
-  * `2. Save the docker container as an image <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-2.Savethedockercontainerasanimage>`_
-
-    * `To test that the docker container is what we want, we can test it in the shell. <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-Totestthatthedockercontaineriswhatwewant,wecantestitintheshell.>`_
-    * `To delete unnecessary docker images to reduce memory: <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-Todeleteunnecessarydockerimagestoreducememory:>`_
-
-  * `3. Build singularity image from docker image <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-3.Buildsingularityimagefromdockerimage>`_
-  * `4. Upload the singularity image to the server <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-4.Uploadthesingularityimagetotheserver>`_
-  * `5. Using the singularity image <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-5.Usingthesingularityimage>`_
-
-* `2. Dockerfile example with explanations <#CompleteInstructions:FromcreatingtheDockerfiletousingthesingularitycontainer-2.Dockerfileexamplewithexplanations>`_
 
 1. From building the Dockerfile to using the singularity container
 ==================================================================

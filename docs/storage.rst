@@ -1,24 +1,13 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
-
-There are several storage systems available, for data, document and code storage.
-
-
-* `Data storage <#Storage-Datastorage>`_
-
-  * `Requesting access for I:\group Teuwen: <#Storage-RequestingaccessforI:\groupTeuwen:>`_
-  * `Add I:\group Teuwen to network: <#Storage-AddI:\groupTeuwentonetwork:>`_
-  * `Mounting I:\group Teuwen to a linux machine (connected to the NKI network): <#Storage-MountingI:\groupTeuwentoalinuxmachine(connectedtotheNKInetwork>`_\ :)
-
-* `Sharing large files with externals <#Storage-Sharinglargefileswithexternals>`_
-* `Transferring files from surf filesender using the command line <#Storage-Transferringfilesfromsurffilesenderusingthecommandline>`_
-* `Document storage <#Storage-Documentstorage>`_
-* `Code storage <#Storage-Codestorage>`_
-
+============
 Data storage
 ============
 
+.. contents::
+
+There are several storage systems available, for data, document and code storage.
+
+Data storage
+------------
 
 .. list-table::
    :widths: 20 10 10 10 10 10
@@ -50,8 +39,7 @@ Data storage
      - This is shared with several groups - ACL possible
       
 Requesting access for ``I:\group Teuwen``\ :
-----------------------------------------------
-
+--------------------------------------------
 
 #. 
    Log in to the NKI intranet:
@@ -159,12 +147,12 @@ Note that if you want to transfer from e.g. Lisa or your local machine TO the NK
 **Important note**\ : All files to be rsync-ed by a user need to have permissions rights for user **at least read (for files) and executable (for folders and subdirectories)** permissions\ **.** Check `here <https://www.linode.com/docs/guides/modify-file-permissions-with-chmod/>`_ for more information on permission rights.
 
 Sharing large files with externals
-==================================
+----------------------------------
 
 A secure way to share large files is provided by Surf: `https://www.surf.nl/en/surfdrive-store-and-share-your-files-securely-in-the-cloud <https://www.surf.nl/en/surfdrive-store-and-share-your-files-securely-in-the-cloud>`_
 
 Transferring files from surf filesender using the command line
-==============================================================
+--------------------------------------------------------------
 
 The ``curl`` command can be used, but it requires two properties for the url (specific for surf filesender):
 
@@ -182,11 +170,11 @@ In the download page, get link address for downloading one or multiple files as 
    curl -o data.tar 'https://filesender.surf.nl/download.php?token=7f9aad80-b9ce-43af-b7cc-863c14a8b8cd&files_ids=5610281%5610282'
 
 Document storage
-================
+----------------
 
 Make sure to save your important documents in a backed-up location. The NKI provides you with a OneDrive account.
 
 Code storage
-============
+------------
 
 We use GitHub: `https://github.com/NKI-AI <https://github.com/NKI-AI>`_ access can be obtained through Jonas Teuwen or Yoni Schirris

@@ -3,18 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Kosmos documentation's documentation!
-================================================
+Welcome to the Kosmos RHPC cluster documentation!
+=================================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   introduction
+   connecting
+   storage
+   slurm_usage_guide
+   spack
