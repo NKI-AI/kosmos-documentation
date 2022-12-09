@@ -4,8 +4,6 @@
 
 There are several storage systems available, for data, document and code storage.
 
-/*<![CDATA[*/ div.rbtoc1670582131472 {padding: 0px;} div.rbtoc1670582131472 ul {list-style: disc;margin-left: 0px;} div.rbtoc1670582131472 li {margin-left: 0px;padding-left: 0px;} /*]]>*/
-
 
 * `Data storage <#Storage-Datastorage>`_
 
@@ -22,11 +20,35 @@ Data storage
 ============
 
 
-.. raw:: html
+.. list-table::
+   :widths: 20 10 10 10 10 10
+   :header-rows: 1
 
-   <table data-layout="wide" data-local-id="3600d303-b41a-4a4d-822f-556613d75278" class="confluenceTable"><colgroup><col style="width: 146.0px;"><col style="width: 142.0px;"><col style="width: 142.0px;"><col style="width: 142.0px;"><col style="width: 142.0px;"><col style="width: 142.0px;"></colgroup><tbody><tr><th class="confluenceTh"><p><strong>Location</strong></p></th><th class="confluenceTh"><p><strong>Space</strong></p></th><th class="confluenceTh"><p><strong>Request access</strong></p></th><th class="confluenceTh"><p><strong>Backup</strong></p></th><th class="confluenceTh"><p><strong>Accessibility</strong></p></th><th class="confluenceTh"><p><strong>Remarks</strong></p></th></tr><tr><td class="confluenceTd"><p><code>\\image-storage\group Teuwen</code></p></td><td class="confluenceTd"><p>50TB</p></td><td class="confluenceTd"><p>Servicedesk (webform)</p></td><td class="confluenceTd"><p>Daily incremental</p></td><td class="confluenceTd"><p>Only within NKI network</p></td><td class="confluenceTd"><p>Cannot be used to directly load data for training models</p></td></tr><tr><td class="confluenceTd"><p><code>\mnt\archive\data</code></p></td><td class="confluenceTd"><p>±300TB</p></td><td class="confluenceTd"><p><a href="mailto:rhpc-admin@nki.nl" class="external-link" rel="nofollow">rhpc-admin@nki.nl</a></p><p></p></td><td class="confluenceTd"><p>No</p></td><td class="confluenceTd"><p>Only within RHPC network (<a href="http://rhpc.nki.nl" class="external-link" rel="nofollow">rhpc.nki.nl</a>)</p></td><td class="confluenceTd"><p>Contains the home folders on RHPC</p></td></tr><tr><td class="confluenceTd"><p>Surf Lisa storage</p></td><td class="confluenceTd"><p>50TB</p></td><td class="confluenceTd"><p><a href="mailto:rhpc-admin@nki.nl" class="external-link" rel="nofollow">rhpc-admin@nki.nl</a></p><p></p></td><td class="confluenceTd"><p>No</p></td><td class="confluenceTd"><p>Only within Surf’s network</p></td><td class="confluenceTd"><p>This is shared with several groups - ACL possible</p></td></tr></tbody></table>
-
-
+   * - Location
+     - Space
+     - Request access
+     - Backup
+     - Accessibility
+     - Remarks
+   * - \\image-storage\group Teuwen
+     - 50TB
+     - Servicedesk (webform)
+     - Daily incremental 
+     - Only within NKI network
+     - Cannot be used to directly load data for training models   
+   * - \mnt\archive\data
+     - ±300TB
+     - rhpc-admin@nki.nl
+     - No
+     - Only within RHPC network (rhpc.nki.nl)
+     - Contains the home folders on RHPC                          
+   * - Surf Lisa storage
+     - 50TB
+     - rhpc-admin@nki.nl
+     - No
+     - Only within Surf’s network
+     - This is shared with several groups - ACL possible
+      
 Requesting access for ``I:\group Teuwen``\ :
 ----------------------------------------------
 
@@ -55,8 +77,8 @@ Requesting access for ``I:\group Teuwen``\ :
       e.g.:
 
 
-      .. image:: attachments/1984299013/2012479975.png
-         :target: attachments/1984299013/2012479975.png
+      .. image:: attachments/requesting-access.png
+         :target: _images/requesting-access.png
          :alt: 
 
 
@@ -104,7 +126,7 @@ Add ``I:\group Teuwen`` to network:
 Mounting ``I:\group Teuwen`` to a linux machine (connected to the NKI network):
 -----------------------------------------------------------------------------------
 
-.. code-block:: java
+.. code-block:: bash
 
    sudo mount -t cifs -o username=<NKI_username>,vers=2.0,uid=$(id -u),gid=$(id -g),file_mode=0777,dir_mode=0777 //172.20.3.112/"Group Teuwen" <mount_dir>
 
@@ -114,22 +136,22 @@ From this point navigating to the <mount_dir> folder will also allow for viewing
 
 Copying data from another server to the image-storage drive can be as simple as:
 
-.. code-block:: java
+.. code-block:: bash
 
    rsync --progress -cav <user>@<server_url>:<dir_to_share> <mount_dir>/<project_folder>/
 
-where **\ :raw-html-m2r:`<user>`\ ** is the user name of the server and **<server_url>** is the is something like `\ *login-gpu.lisa.surfsara.nl* <http://login-gpu.lisa.surfsara.nl>`_\ _, **<dir_to_share>** is the directory to be shared_ and **<project_folder>** is a subdirectory for the project in the image-storage drive under the Group Teuwen folder.
+where **\ :raw-html-m2r:`<user>`\ ** is the user name of the server and **<server_url>** is the is something like `\ *login-gpu.lisa.surfsara.nl* <http://login-gpu.lisa.surfsara.nl>`_\ _, **<dir_to_share>** is the directory to be shared and **<project_folder>** is a subdirectory for the project in the image-storage drive under the Group Teuwen folder.
 
 If transferring from using tunneled ssh connection (e.g.: ssh to rhpc and then to wallace on rhpc) then this command works:
 
-.. code-block:: java
+.. code-block:: bash
 
    rsync -azv -e 'ssh -A -J <user>@rhpc.nki.nl' --info=progress2 \
     <user>@rhpc-wallace:<dir_to_share> <mount_dir>/<project_folder>
 
 Note that if you want to transfer from e.g. Lisa or your local machine TO the NKI server, you need to switch the directories in the above statement, like
 
-.. code-block:: java
+.. code-block:: bash
 
    rsync -azv -e 'ssh -A -J <user>@rhpc.nki.nl' --info=progress2 \
     /path/to/local/<dir_to_share> <user>@rhpc-wallace:<mount_dir>/<project_folder>
@@ -155,7 +177,7 @@ The ``curl`` command can be used, but it requires two properties for the url (sp
 
 In the download page, get link address for downloading one or multiple files as zip or tar, and use the curl command as in the example below:
 
-.. code-block:: java
+.. code-block:: bash
 
    curl -o data.tar 'https://filesender.surf.nl/download.php?token=7f9aad80-b9ce-43af-b7cc-863c14a8b8cd&files_ids=5610281%5610282'
 

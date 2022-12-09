@@ -3,8 +3,6 @@ In order to use the compute nodes for training your models, start interactive se
 
 For illustration, we will consider three user-specific system packages ``pyvips``\ , ``openslide`` and ``pixman``\ , and CUDA drivers which are generally necessary for everyone.
 
-/*<![CDATA[*/ div.rbtoc1670582130152 {padding: 0px;} div.rbtoc1670582130152 ul {list-style: disc;margin-left: 0px;} div.rbtoc1670582130152 li {margin-left: 0px;padding-left: 0px;} /*]]>*/
-
 
 * `An important environment variable <#Loadingsystempackagesoncomputenodesusingspack-Animportantenvironmentvariable>`_
 * `Loading the right CUDA drivers <#Loadingsystempackagesoncomputenodesusingspack-LoadingtherightCUDAdrivers>`_
@@ -19,7 +17,7 @@ On any system, the environment variable ``LD_LIBRARY_PATH`` is important. This i
 
 Before we start loading packages using spack, let us unset the ``LD_LIBRARY_PATH`` just to be sure. Although, this is not a necessary step.
 
-.. code-block:: java
+.. code-block:: bash
 
    unset LD_LIBRARY_PATH
 
@@ -52,7 +50,7 @@ To load your preferred CUDA driver, use:
 
 Now, let’s look at the ``LD_LIBRARY_PATH`` environment variable to confirm if these changes have been properly made.
 
-.. code-block:: java
+.. code-block:: bash
 
    echo $LD_LIBRARY_PATH
 
@@ -84,7 +82,7 @@ We repeat the steps described above to find the available packages and load them
 
 Note, however, that if you wish to use the aiforoncology fork of openslide so be able to read ``.mrxs`` files from the 3dhistech scanner, you need to load pixman and libvips **first**\ , and the ``openslide-aifo@3.4.1-nki`` package **last**. It seems that otherwise libvips overwrites the openslide aifo fork with the normal installation.
 
-.. code-block:: java
+.. code-block:: bash
 
    # Install system dependencies
    spack load pixman@0.40.0
@@ -102,7 +100,7 @@ spack offers a default python interpreter which may not be useful for you in all
 
 then, activate your conda environment normally and verify the interpreter path.
 
-.. code-block:: java
+.. code-block:: bash
 
    conda activate <env_name>
    which python
