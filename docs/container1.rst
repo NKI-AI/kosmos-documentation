@@ -1,6 +1,3 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 
 The preferred way of executing programs on the RHPC cluster is through the use of containers. Containers enable you to package up software (code and dependencies) in a portable and reproducible fashion.
 
@@ -75,7 +72,7 @@ A convenient method to convert an existing docker container into a singularity c
       #. 
          If you get a “no space left on device” error, this can be resolved by setting a different cache dir that does have enough space, like
 
-         .. code-block:: java
+         .. code-block:: shell
 
             SINGULARITY_TMPDIR=/scratch/tmp SINGULARITY_CACHEDIR=/scratch/cache singularity build <rest of options>
 

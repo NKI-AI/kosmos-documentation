@@ -9,17 +9,17 @@
 1. Build the docker container with docker build
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: java
+.. code-block:: shell
 
-   docker build -t docker_name:version_name /output/path/ -f path_to/Dockerfile 
+   docker build -t docker_name:version_name /output/path/ -f path_to/Dockerfile
    specfici example:
    docker build -t drop_dlup:latest . -f docker/Dockerfile_orig
 
 
-* 
+*
   You can also give the Dockerfile another name, there is no extension
 
-* 
+*
   version name can be something like ‘1.0’ or also ‘latest’
 
 2. Save the docker container as an image
@@ -28,7 +28,7 @@
 
 * The container_id can be found by using **docker ps**
 
-.. code-block:: java
+.. code-block:: shell
 
    docker save container_id -o docker_image_name.tar
    spcific example:
@@ -40,14 +40,14 @@ To test that the docker container is what we want, we can test it in the shell.
 
 * This way we can gradually add things and understand and see how the docker container changes.
 
-.. code-block:: java
+.. code-block:: shell
 
    docker run -ti image_id /bin/bash
 
 To delete unnecessary docker images to reduce memory:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: java
+.. code-block:: shell
 
    # to remove all dangling images
    docker image prune -a
@@ -58,13 +58,13 @@ To delete unnecessary docker images to reduce memory:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-* 
+*
   The container_id can be found by using ``docker ps``
 
-* 
+*
   See also above the information on: Converting docker to singularity- Method 1: Docker is already built
 
-.. code-block:: java
+.. code-block:: shell
 
    singularity build singularity_image_name.sif docker-archive://docker_image_name.tar
    specific example:
@@ -76,7 +76,7 @@ To delete unnecessary docker images to reduce memory:
 
 * This can take a long time (3 hours)
 
-.. code-block:: java
+.. code-block:: shell
 
     rsync -azv --progress=’info2’  drop_new_20211226.sif user_nki@rhpc-server_name:/path/to/singularity_image.sif
 
@@ -84,23 +84,23 @@ To delete unnecessary docker images to reduce memory:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-* 
+*
   A bash script can be made for launching the singularity image in a container and mapping the required GPUs to the singularity image.
 
-* 
+*
   With slurm, GPU server numbers are automatically 0-N where N are the number of GPUs requested. Previously the exact GPU numbers needed to be provided in the format ``"1,3,5"`` as an example for GPUs 1, 3 and 5.
 
-* 
+*
   Executing with sh is sufficient
 
-* 
+*
   You can bind the locations you need to access in the singularity container with the --bind flag:\ :raw-html-m2r:`<br>`
   --bind path/to/loc/on/server:path/to/loc/on/singularity, path/to/loc2/on/server:path/to/loc2/on/singularity
 
-* 
+*
   The bound locations have no space in between the items. There is a space after the --bind flag as this is followed by the singularity image location
 
-.. code-block:: java
+.. code-block:: shell
 
    #!/bin/bash
    read -p 'GPU indices to use (format example: "1,3,5"): ' GPU_IDX
@@ -112,7 +112,7 @@ To delete unnecessary docker images to reduce memory:
    /path/to/singularity_image.sif
 
 
-   specific: 
+   specific:
    SINGULARITYENV_CUDA_VISIBLE_DEVICES="${GPU_IDX}" singularity shell --nv \
    --bind /mnt/archive/projectdata/drop:/mnt/archive/projectdata/drop,\
    /mnt/archive/data/pathology:/mnt/archive/data/pathology,\
@@ -122,7 +122,7 @@ To delete unnecessary docker images to reduce memory:
 2. Dockerfile example with explanations
 =======================================
 
-.. code-block:: py
+.. code-block:: shell
 
    #install ubuntu base os with cuda and cudnn installed \
    # (for accesing the GPUs (cuda) and performing cuda-backed deep learning (cudnn))
@@ -140,8 +140,8 @@ To delete unnecessary docker images to reduce memory:
    # Set cuda path environment variable with ENV (not export)
    ENV CUDA_PATH /usr/local/cuda
    # Define the architecture of our GPUs (rtx8000 = Turing, a6000 = Ampere) (for cudnn)
-   ENV TORCH_CUDA_ARCH_LIST="Turing;Ampere" 
-   # set cuda root environment variable 
+   ENV TORCH_CUDA_ARCH_LIST="Turing;Ampere"
+   # set cuda root environment variable
    ENV CUDA_ROOT /usr/local/cuda/bin
    # set LD_LIBRARY_PATH environment variable tells Linux applications \
    # where to find shared libraries when they are located in a different directory \
@@ -151,7 +151,7 @@ To delete unnecessary docker images to reduce memory:
    #install dependencies for dlup
    #first run apt-get update
    #for testing the docker container you could also just install some necessary libraries
-   #like nano and sudo 
+   #like nano and sudo
    #potentially also install ssh for usage of debugger (tbc)
 
    RUN apt-get update && apt-get install -y libxrender1 build-essential sudo \
@@ -186,7 +186,7 @@ To delete unnecessary docker images to reduce memory:
        && ./configure && make -j$BUILD_WORKERS && make install && ldconfig \
        && cd /tmp && rm -rf openslide
 
-   # Make a user (we are currently root user) 
+   # Make a user (we are currently root user)
    # disabledd-password means that no password can be set for user
    # gecos is also a sort of linux password. gecos field exists in /etc/passwd file on unix
    # we set home dir to /users (otherwise it would be automatically set to /home). This is to prevent issues with singularity
@@ -198,17 +198,17 @@ To delete unnecessary docker images to reduce memory:
        && adduser $UNAME sudo \
        && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-   #change from root user to the new user and set new working directory 
+   #change from root user to the new user and set new working directory
    USER $UNAME
    WORKDIR /users/$UNAME
 
-   #install miniconda 
+   #install miniconda
    RUN cd /tmp && wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
        && bash Miniconda3-latest-Linux-x86_64.sh -b \
        && rm Miniconda3-latest-Linux-x86_64.sh
    # declare environment variable PATH. Set miniconda as first path variable \
    #(to first check this location when conda is executed), \
-   #then the old path vars and then cuda root 
+   #then the old path vars and then cuda root
    ENV PATH "/users/$UNAME/miniconda3/bin:$PATH:$CUDA_ROOT"
 
 
@@ -247,9 +247,9 @@ To delete unnecessary docker images to reduce memory:
    #change to root user to have full permissions
    USER root
    # Alternative: we can give permissions to our user in /drop  with:
-   COPY --chown=$UNAME:$UNAME . /drop 
+   COPY --chown=$UNAME:$UNAME . /drop
 
-   ## install dlup from our local copy of dlup, the -e flag makes the repo editable 
+   ## install dlup from our local copy of dlup, the -e flag makes the repo editable
    WORKDIR /drop/third_party/dlup
    RUN python -m pip install -e .
 
