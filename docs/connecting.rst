@@ -102,6 +102,17 @@ Ubuntu/WSL/MacOS: To jump between rhpc servers
      User <enter your RHPC username>
      ProxyJump rhpc
 
+   Host rhpc-alanturing
+     Hostname alanturing
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
+   Host rhpc-wilhelmroentgen
+     Hostname wilhelmroentgen
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
+
 2. chmod 600 config
 
 3. Create a ``~/.ssh/tmp`` folder and give proper permissions (chmod 700).
@@ -181,7 +192,7 @@ Windows Powershell: To jump between rhpc servers
 #. 
    Create a config file that contains:
 
-   .. code-block:: java
+   .. code-block:: shell
 
       Host rhpc
         User <username>
@@ -218,6 +229,16 @@ Windows Powershell: To jump between rhpc servers
 
       Host rhpc-eratosthenes
         Hostname eratosthenes
+        User <enter your RHPC username>
+        ProxyCommand ssh -W %h:%p rhpc
+
+      Host rhpc-alanturing
+        Hostname alanturing
+        User <enter your RHPC username>
+        ProxyCommand ssh -W %h:%p rhpc
+
+      Host rhpc-wilhelmroentgen
+        Hostname wilhelmroentgen
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
