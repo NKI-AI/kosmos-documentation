@@ -4,7 +4,7 @@ Spack usage
 
 .. contents::
 
-In order to use the compute nodes for training your models, start interactive sessions or use the remote debugging on pycharm, you may want to use some system libraries specific to your application. On RHPC, this is managed by a `package manager <https://nki-research-it.atlassian.net/wiki/spaces/NKIAI/pages/1984233497/Compute+cluster+NKI+Kosmos#Installed-software>`_ called ``spack``. This article will guide you to properly load the system packages you want to use while using the compute nodes.
+In order to use the compute nodes for training your models, start interactive sessions or use the remote debugging on pycharm, you may want to use some system libraries specific to your application. On RHPC, this is managed by a package manager called ``spack``. This article will guide you to properly load the system packages you want to use while using the compute nodes.
 
 For illustration, we will consider three user-specific system packages ``pyvips``\ , ``openslide`` and ``pixman``\ , and CUDA drivers which are generally necessary for everyone.
 
@@ -25,7 +25,7 @@ Now, let us look at how to load some important system packages.
 Loading the right CUDA drivers
 ------------------------------
 
-RHPC has different GPU nodes with different architectures. It is important to know what version of CUDA is necessary to use a particular node. This can be found on this `page <https://nki-research-it.atlassian.net/wiki/spaces/NKIAI/pages/1984233497/Compute+cluster+NKI+Kosmos#GPU-nodes>`_.
+RHPC has different GPU nodes with different architectures. It is important to know what version of CUDA is necessary to use a particular node. This can be found in the :ref:`gpu-nodes` table.
 
 To illustrate an example, let us consider an interactive session on aristarchus. Before loading this system library, we must first perform a search of all the CUDA libraries installed. Use the following in your bash terminal:
 
@@ -34,8 +34,8 @@ To illustrate an example, let us consider an interactive session on aristarchus.
    spack find cuda
 
 
-.. image:: attachments/2465595492/2465464589.png?width=340
-   :target: attachments/2465595492/2465464589.png?width=340
+.. image:: attachments/spack-example.png
+   :target: _images/spack-example.png
    :alt: 
 
 

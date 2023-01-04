@@ -39,7 +39,8 @@ Data storage
      - No
      - Only within Surf’s network
      - This is shared with several groups - ACL possible
-      
+
+
 Requesting access for ``I:\group Teuwen``\ :
 --------------------------------------------
 
@@ -60,19 +61,10 @@ Requesting access for ``I:\group Teuwen``\ :
    Choose option 10 from the service list: “\ *10. toegang netwerkschijf map*\ ” (access network disk folder)
 
 #. 
-   Fill in the form details as follows:
+   Fill in the form details.
 
 
-   #. 
-      e.g.:
-
-
-      .. image:: attachments/requesting-access.png
-         :target: _images/requesting-access.png
-         :alt: 
-
-
-   #. Ask permission from your supervisor to request for access
+#. Ask permission from your supervisor to request for access
 
 #. 
    Submit form

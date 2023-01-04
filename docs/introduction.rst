@@ -43,6 +43,8 @@ Hardware
 
 Below lists the current available hardware.
 
+.. _gpu-nodes:
+
 GPU nodes
 ---------
 
