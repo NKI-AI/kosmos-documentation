@@ -14,3 +14,4 @@ Welcome to the Kosmos RHPC cluster documentation!
    storage
    slurm_usage_guide
    spack
+   accounting

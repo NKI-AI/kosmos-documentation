@@ -1,3 +1,5 @@
+.. _slurm-usage-guide:
+
 =================
 Slurm usage guide
 =================
