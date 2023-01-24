@@ -15,3 +15,4 @@ Welcome to the Kosmos RHPC cluster documentation!
    slurm_usage_guide
    spack
    accounting
+   admins/index
