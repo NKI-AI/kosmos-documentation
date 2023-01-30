@@ -2,7 +2,7 @@
 PyCharm and the cluster
 =======================
 
-PyCharm can be configured with remote interpreters, allowing you to run/debug code directly on the RHPC cluster nodes. It is tricky to get this set up properly, and the steps below should guide you through the process. Make sure to update PyCharm to the most recent version — the interface may be different for older versions.
+PyCharm can be configured with remote interpreters, allowing you to run/debug code directly on the RHPC cluster nodes. It is tricky to get this set up properly, and the steps below should guide you through the process. Make sure to update PyCharm to the most recent version — the interface may be different for older versions (i.e. < 2022). 
 
 
 SSH connections
