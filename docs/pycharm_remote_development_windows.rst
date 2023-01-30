@@ -8,7 +8,7 @@ Pycharm remote development on Windows
 
 Requirements
 ------------
-You should already have the following set up before trying to set up remote development
+You should already have the following set up before trying to set up remote development:
 
 - Connection to RHPC servers via authentication agent
 - SSH config file with jumping between RHPC-servers
@@ -30,7 +30,7 @@ Set up
 #. Click "Test Connection" to make sure the connection works
 #. Under Mappings check if the local path is correctly filled in and fill in the deployment path
 
-You are now set up to use remote deployment
+You are now set up to use remote deployment.
 
 
 Usage

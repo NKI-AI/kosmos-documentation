@@ -16,4 +16,3 @@ Welcome to the Kosmos RHPC cluster documentation!
    spack
    pycharm_remote_development_windows
    admins/index
-   containers/index
