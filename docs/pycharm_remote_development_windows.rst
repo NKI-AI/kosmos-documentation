@@ -1,10 +1,10 @@
-.. role::  raw-html(raw)
-    :format: html
-
+.. _pycharm-remote-development-windows:
 
 ==============================================
 Pycharm remote development on Windows
 ==============================================
+
+.. contents::
 
 Requirements
 ------------
@@ -18,7 +18,7 @@ Set up
 ------
 
 #. Open PyCharm
-#. Go to Tools :raw-html:`&rarr;` Deployment :raw-html:`&rarr;` Configuration
+#. Go to Tools → Deployment → Configuration
 #. Click the + symbol, choose SFTP and choose a name (can be anything)
 #. Select your SSH configuration or set one up in PyCharm as follows:
 	#. Click the three dots next to <select configuration>
@@ -36,11 +36,11 @@ You are now set up to use remote deployment
 Usage
 -----
 
-To use remote deployment there are two methods. First make sure that the correct deployment server is selected by going to Tools :raw-html:`&rarr;` Deployment :raw-html:`&rarr;` Configuration or by clicking the SFTP symbol in the bottom bar.
+To use remote deployment there are two methods. First make sure that the correct deployment server is selected by going to Tools → Deployment → Configuration or by clicking the SFTP symbol in the bottom bar.
 
-The most straightforward way is to enable automatic deployment. Under Tools :raw-html:`&rarr;` Deployment select "Automatic Upload"
+The most straightforward way is to enable automatic deployment. Under Tools → Deployment select "Automatic Upload"
 
-Another way to use deployment is to do it manually. You can either deploy multiple files via Tools :raw-html:`&rarr;` Deployment, or you can right click a file or directory :raw-html:`&rarr;` Deployment and select the appropriate option there.
+Another way to use deployment is to do it manually. You can either deploy multiple files via Tools → Deployment, or you can right click a file or directory → Deployment and select the appropriate option there.
 
 Trouble Shooting
 ----------------

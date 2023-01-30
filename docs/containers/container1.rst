@@ -99,7 +99,7 @@ A convenient method to convert an existing docker container into a singularity c
       #. 
          Then, run
 
-         .. code-block:: java
+         .. code-block:: bash
 
             $ export VM=sylabs/singularity-3.0-ubuntu-bionic64 && \
                 vagrant init $VM && \
@@ -141,7 +141,7 @@ Another example when this can be useful is **installing additional pip packages*
    Save your current singularity image as a sandbox: ``singularity build --sandbox <your-sandbox-folder> <your-current-singularity-image>.sif`` . This can take a couple of minutes.
 
 #. 
-   Open the shell of the created sandbox: ``singularity shell --no-umask --writable <your-sandbox-folder>``. It is very important to add the argument ``--no-umask`` when using Lisa.\ :raw-html-m2r:`<br>`
+   Open the shell of the created sandbox: ``singularity shell --no-umask --writable <your-sandbox-folder>``. It is very important to add the argument ``--no-umask`` when using Lisa.
    **Details**\ : The value of ``umask`` is related to file permission. The default value of ``umask`` in Lisa is ``0077`` . However, these permissions are quite restrictive, allowing read access only for the file owner. When you install the package in singularity shell of the sandbox, you create a folder with this package. After creating the image and running a container with it, the owner of the folder changes, so inside the container you don’t have access to the installed package and you will not be able to use it. By using ``--no-umask`` , ``umask`` is set to less strict permissions, ``0022``. If you want even more details, see: `https://github.com/sylabs/singularity/issues/506 <https://github.com/sylabs/singularity/issues/506>`_
 
 #. 
