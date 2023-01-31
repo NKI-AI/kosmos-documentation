@@ -1,6 +1,6 @@
-============
+====================================================================
 Using Singularity to create the most comfortable working environment
-============
+====================================================================
 
 Although the preferred way of any student to run things on the cluster is through Anaconda environments that are well groomed and setup, with loading the correct modules using spack,
 it often comes to a moment in your research career when it is impossible to run everything with the existing tools on the cluster.
@@ -23,6 +23,7 @@ In order to build a Singularity image you will need a Singularity definition fil
 Here is one of these files, which builds on top of nvidia CUDA docker using CUDA 11.6.2 and CUDNN 8 on a Ubuntu 20.04:
 
 There are 5 sections
+
 .. code-block:: bash
 
    Bootstrap: docker  
@@ -37,7 +38,7 @@ This indicates that it should go to the docker hub and pull the container with t
       MANTAINER Nikita Moriakov, Samuele Papa
 
 
-These are the people that maintain this singularity definition file, always useful to have but not essential for the thing to run. ::
+These are the people that maintain this singularity definition file, always useful to have but not essential for the thing to run.
 
 .. code-block:: bash
 
@@ -49,7 +50,7 @@ These are the people that maintain this singularity definition file, always usef
        export PATH=$PATH:/usr/local/cuda/bin:/opt/miniconda3/bin
 
 
-These are the environment variables that we want to set, to make sure that everything runs smoothly when we run our scripts from within this singularity image. ::
+These are the environment variables that we want to set, to make sure that everything runs smoothly when we run our scripts from within this singularity image.
 
 .. code-block:: bash
 
@@ -60,7 +61,7 @@ These are the environment variables that we want to set, to make sure that every
        ./msd_pytorch/* /opt/msd_pytorch/
 
 
-These are the local folders that we want to bind during building, as we cannot do this dynamically. ::
+These are the local folders that we want to bind during building, as we cannot do this dynamically.
 
 .. code-block:: bash
 
@@ -78,19 +79,19 @@ These are the local folders that we want to bind during building, as we cannot d
       DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \  
       systemd \  
       libxext6 \  
-       libsm6 \  
-       bzip2 \  
-       libxrender1 \  
-       libgl1-mesa-glx \  
-       build-essential \  
-       automake \  
-       libboost-all-dev \  
-       git \  
-       openssh-server \  
-       wget \  
-       nano \  
-       libtool \  
-       rsync  
+      libsm6 \  
+      bzip2 \  
+      libxrender1 \  
+      libgl1-mesa-glx \  
+      build-essential \  
+      automake \  
+      libboost-all-dev \  
+      git \  
+      openssh-server \  
+      wget \  
+      nano \  
+      libtool \  
+      rsync  
 
       # Reduce image size  
       rm -rf /var/lib/apt/lists/*  
@@ -110,46 +111,46 @@ These are the local folders that we want to bind during building, as we cannot d
       # Install python libraries  
       conda install pytorch=1.12.1 torchvision=0.13.1 cudatoolkit=11.6 pytorch-lightning -c conda-forge -c pytorch  
       pip install numpy pyyaml mkl mkl-include setuptools==59.5.0 cmake cffi typing boost scipy pandas cython matplotlib tqdm pillow scikit-learn scikit-image==0.18.3 hydra-core einops h5py wandb deepdiff black isort dominate visdom runstats tb-nightly yacs xarray future packaging pytest coverage coveralls easydict tifffile demandimport future notebook pydicom  
-       # Make directories  
-       mkdir /opt/ITK  
-       mkdir /opt/RTK  
-       cd /opt  
-       wget -q https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.tar.gz  
-       tar -xzf InsightToolkit-5.3.0.tar.gz  
-       mv InsightToolkit-5.3.0/* ITK/  
-       wget -q https://github.com/RTKConsortium/RTK/archive/refs/tags/v2.4.1.tar.gz  
-       tar -xzf v2.4.1.tar.gz -C RTK --strip-components 1  
+      # Make directories  
+      mkdir /opt/ITK  
+      mkdir /opt/RTK  
+      cd /opt  
+      wget -q https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.tar.gz  
+      tar -xzf InsightToolkit-5.3.0.tar.gz  
+      mv InsightToolkit-5.3.0/* ITK/  
+      wget -q https://github.com/RTKConsortium/RTK/archive/refs/tags/v2.4.1.tar.gz  
+      tar -xzf v2.4.1.tar.gz -C RTK --strip-components 1  
 
-       cd /opt/ITK  
-       mkdir build  
-       cd build  
-       cmake -DITK_WRAP_PYTHON=TRUE ..  
-       make -j 8  
+      cd /opt/ITK  
+      mkdir build  
+      cd build  
+      cmake -DITK_WRAP_PYTHON=TRUE ..  
+      make -j 8  
 
-       CUDAARCHS='80;86'  
-       export CUDAARCHS  
-       cd /opt/RTK  
-       mkdir build  
-       cd build  
-       cmake -DCUDAARCHS="80;86" -DRTK_USE_CUDA=TRUE -DITK_DIR=/opt/ITK/build ..  
-       make -j 8  
+      CUDAARCHS='80;86'  
+      export CUDAARCHS  
+      cd /opt/RTK  
+      mkdir build  
+      cd build  
+      cmake -DCUDAARCHS="80;86" -DRTK_USE_CUDA=TRUE -DITK_DIR=/opt/ITK/build ..  
+      make -j 8  
 
-       cp /opt/ITK/build/Wrapping/Generators/Python/WrapITK.pth /opt/miniconda3/lib/python3.9/site-packages/WrapITK.pth  
+      cp /opt/ITK/build/Wrapping/Generators/Python/WrapITK.pth /opt/miniconda3/lib/python3.9/site-packages/WrapITK.pth  
 
-       mkdir /code  
-       mkdir /data  
+      mkdir /code  
+      mkdir /data  
 
-       # Python module  
-       cd /opt/msd_pytorch  
-       TORCH_CUDA_ARCH_LIST="7.5 8.0 8.6" pip install -e .[dev]  
-       cd /opt/tomo_projector_library/tomo_projector_installer  
-       TORCH_CUDA_ARCH_LIST="7.5 8.0 8.6" python setup.py install  
-       cd /opt/tomo_projector_library  
-       python -m pip install -e .  
-       cd /opt/tomovis_project  
-       python -m pip install -e .  
-       cd /opt/parametric_dataset_project  
-       python -m pip install -e .
+      # Python module  
+      cd /opt/msd_pytorch  
+      TORCH_CUDA_ARCH_LIST="7.5 8.0 8.6" pip install -e .[dev]  
+      cd /opt/tomo_projector_library/tomo_projector_installer  
+      TORCH_CUDA_ARCH_LIST="7.5 8.0 8.6" python setup.py install  
+      cd /opt/tomo_projector_library  
+      python -m pip install -e .  
+      cd /opt/tomovis_project  
+      python -m pip install -e .  
+      cd /opt/parametric_dataset_project  
+      python -m pip install -e .
 
 This is where all the things get installed. Notice how we are installing also basic `apt` packages, setting environment variables, and everything else we would normally do when using `bash` and preparing our machine, because that's exactly what we are doing. We are basically creating a whole new machine where to run our code.
 We download miniconda, install it, setup the `PATH`, install python and all the other packages we might need. After that, we also configure and compile two whole packages from scratch
