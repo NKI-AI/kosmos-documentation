@@ -1,6 +1,6 @@
-====================================================================
-Using Singularity to create the most comfortable working environment
-====================================================================
+===========================
+Singularity is all you need
+===========================
 
 Although the preferred way of any student to run things on the cluster is through Anaconda environments that are well groomed and setup, with loading the correct modules using spack,
 it often comes to a moment in your research career when it is impossible to run everything with the existing tools on the cluster.
