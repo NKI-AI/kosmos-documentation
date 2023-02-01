@@ -17,3 +17,4 @@ Welcome to the Kosmos RHPC cluster documentation!
    pycharm_remote
    singularity
    admins/index
+   faq
