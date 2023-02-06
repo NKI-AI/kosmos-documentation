@@ -107,8 +107,18 @@ Ubuntu/WSL/MacOS: To jump between rhpc servers
      User <enter your RHPC username>
      ProxyJump rhpc
 
-   Host rhpc-wilhelmroentgen
-     Hostname wilhelmroentgen
+   Host rhpc-roentgen
+     Hostname roentgen
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
+   Host rhpc-mariecurie
+     Hostname mariecurie
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
+   Host rhpc-hamilton
+     Hostname hamilton
      User <enter your RHPC username>
      ProxyJump rhpc
 
@@ -239,6 +249,16 @@ Windows Powershell: To jump between rhpc servers
 
       Host rhpc-wilhelmroentgen
         Hostname wilhelmroentgen
+        User <enter your RHPC username>
+        ProxyCommand ssh -W %h:%p rhpc
+
+      Host rhpc-mariecurie
+        Hostname mariecurie
+        User <enter your RHPC username>
+        ProxyCommand ssh -W %h:%p rhpc
+
+      Host rhpc-hamilton
+        Hostname hamilton
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
