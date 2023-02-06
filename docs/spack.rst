@@ -1,6 +1,8 @@
-===========
-Spack usage
-===========
+.. _spack:
+
+=================
+Spack usage guide
+=================
 
 .. contents::
 
@@ -54,8 +56,8 @@ Now, let’s look at the ``LD_LIBRARY_PATH`` environment variable to confirm if 
    echo $LD_LIBRARY_PATH
 
 
-.. image:: attachments/2465595492/2465497321.png?width=680
-   :target: attachments/2465595492/2465497321.png?width=680
+.. image:: attachments/spack-library-path.png
+   :target: _images/spack-library-path.png
    :alt: 
 
 
@@ -105,8 +107,8 @@ then, activate your conda environment normally and verify the interpreter path.
    which python
 
 
-.. image:: attachments/2465595492/2465792078.png?width=544
-   :target: attachments/2465595492/2465792078.png?width=544
+.. image:: attachments/spack-which-python.png
+   :target: _images/spack-which-python.png
    :alt: 
 
 
@@ -120,8 +122,8 @@ If you’re someone like me, then you probably use a remote debugger for all the
 Paste this into the environment variables field in the pycharm debugger settings.
 
 
-.. image:: attachments/2465595492/2465464647.png
-   :target: attachments/2465595492/2465464647.png
+.. image:: attachments/spack-remote-debugger.png
+   :target: _images/spack-remote-debugger.png
    :alt: 
 
 

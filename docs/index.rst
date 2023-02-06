@@ -14,5 +14,7 @@ Welcome to the Kosmos RHPC cluster documentation!
    storage
    slurm_usage_guide
    spack
-   accounting
+   pycharm_remote
+   singularity
    admins/index
+   faq

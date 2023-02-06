@@ -174,6 +174,36 @@ To cancel a job, use the ``squeue`` command to look up the JOBID and the ``scanc
    $ squeue
    $ scancel JOBID
 
+Finding job or node information with ``scontrol``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To see the status of a node or job and its resources run the ``scontrol`` command followed by either ``job <jobid>`` or ``node <nodename`` 
+
+
+.. code-block:: bash
+
+	$ scontrol show node ptolemaeus
+	NodeName=ptolemaeus Arch=x86_64 CoresPerSocket=32
+   		CPUAlloc=32 CPUTot=128 CPULoad=11.37
+   		AvailableFeatures=(null)
+   		ActiveFeatures=(null)
+   		Gres=gpu:8(S:0-1)
+   		NodeAddr=ptolemaeus NodeHostName=ptolemaeus Version=21.08.8
+   		OS=Linux 5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+   		RealMemory=980330 AllocMem=210304 FreeMem=298006 Sockets=2 Boards=1
+   		State=MIXED ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   		Partitions=a6000
+   		BootTime=2023-01-18T17:54:27 SlurmdStartTime=2023-01-18T17:55:08
+   		LastBusyTime=2023-01-27T17:44:05
+   		CfgTRES=cpu=128,mem=980330M,billing=128,gres/gpu=8
+   		AllocTRES=cpu=32,mem=210304M,gres/gpu=3
+   		CapWatts=n/a
+   		CurrentWatts=0 AveWatts=0
+   		ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+
+
+This gives us for example the total resources (8 gpus), but also the allocated resources (3 gpus).
+
 Running an MPI job
 ^^^^^^^^^^^^^^^^^^
 
