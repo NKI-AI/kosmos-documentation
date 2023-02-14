@@ -6,3 +6,4 @@ Kosmos for administrators (root users)
 
    accounting
    useful_commands
+   mount_drive
