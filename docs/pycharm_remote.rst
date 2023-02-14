@@ -20,7 +20,7 @@ Remote deployment/sync
 This creates a configuration for pycharm so that it knows where to upload the code you edit locally.  If you do this properly, every time you save a file locally it’ll get synced to the remote server instantly.
 
 #. Go to Tools -> Deployment -> Configuration, and click the + button to create a new configuration (SFTP). Enter some name (``rhpc-eratosthenes`` in my case, it’s not important).
-#. Choose the ``eratosthenes`` SSH configuration that you made earlier. Test the connection, this should work fine**. You can autodetect the root path, which it’ll set to your home directory (I find this convenient).
+#. Choose the ``eratosthenes`` SSH configuration that you made earlier. Test the connection, this should work fine [#]_. You can autodetect the root path, which it’ll set to your home directory (I find this convenient).
 #. Check the ``rsync`` option if that works for you, apparently this is troublesome on Windows, but it’s super nice if you can use it.
 #. Configure path mappings in the “Mappings” tab. The local path should point to your local project root, the deployment path should be the relative path to the folder your project should sync to (relative to the rooth path you specified earlier). In my case, this deployment path is simply ``pycharm-sync/<project-name>``. I don’t use the web path.
 #. Now set this configuration as the default by clicking the check mark ✓ in the top left. PyCharm is a little stubborn here so you may need to do so again later on.
@@ -28,10 +28,10 @@ This creates a configuration for pycharm so that it knows where to upload the co
 #. Upload the project. You can either do this through Tools -> Deployment -> Upload to ``rhpc-eratosthenes``, or right click the root project folder in the project explorer and go to the deployment context menu.
 #. Check whether all files made it to your filesystem on the rhpc cluster properly (after upload has completed).
 
-** In case it doesn't your SSH is most likely not up to date, which happens most likely with pre-installed version on NKI-Windows systems. Should be fixed after the following steps
+.. [#] In case it doesn't your SSH is most likely not up to date, which happens most likely with pre-installed version on NKI-Windows systems. Should be fixed after the following steps
 
-#. Download and install the most recent version of SSH: https://github.com/PowerShell/Win32-OpenSSH/releases
-#. Change the Proxycommand for rhpc-eratosthenes to use the newer SSH install:
+   #. Download and install the most recent version of SSH: https://github.com/PowerShell/Win32-OpenSSH/releases
+   #. Change the Proxycommand for rhpc-eratosthenes to use the newer SSH install:
 
 .. code-block:: java
 
