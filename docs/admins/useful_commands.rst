@@ -1,4 +1,8 @@
 Useful commands
 ===============
 
-`sudo -i -u <username>` - switch to user <username>
+Switch to user <username>:
+
+.. code-block:: bash
+   
+   sudo -i -u <username>

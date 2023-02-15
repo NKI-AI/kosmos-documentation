@@ -7,7 +7,7 @@ Mount /processing drive to the login node
 
 Procedure to add /processing of <server_name> to /mnt/processing/<server_name>, so it can be accessed from the login node. 
 
-.. code-block:: text
+.. code-block:: bash
 
     ssh rhpc-<server_name>
     sudo nano /etc/exports
@@ -18,13 +18,13 @@ To give permission to access the /processing, we have to add to /etc/exports the
 
 To export the new file run:
 
-.. code-block:: text
+.. code-block:: bash
     
     sudo exportfs -rav
 
 Next, we have to access the login node to add the mount
 
-.. code-block:: text
+.. code-block:: bash
 
     ssh rhpc-eratosthenes
     mkdir /mnt/processing/<server_name>
@@ -36,6 +36,6 @@ Here we have to add the following just above # BEGIN ANSIBLE MANAGED JOB
 
 Subsequently mount the drive.
 
-.. code-block:: text
+.. code-block:: bash
 
     sudo mount -a
