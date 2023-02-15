@@ -3,7 +3,8 @@ Mounting drives
 ===============
 
 Mount /processing drive to the login node
-^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Procedure to add /processing of <server_name> to /mnt/processing/<server_name>, so it can be accessed from the login node. 
 
 .. code-block:: text
