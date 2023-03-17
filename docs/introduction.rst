@@ -184,6 +184,22 @@ CPU nodes
 
 The CPU nodes can be used for all kinds of tasks which do not require GPUs, such as preprocessing data, running tensorboard, etc.
 
+Useful command for resources
+----------------------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Command
+     - Possible flags
+     - Description
+   * - ``nodestat``
+     - ``-j``
+     - Gives a list of the nodes and the resources they have/ that are available.
+   * - ``myquota``
+     - 
+     - Gives a list of storage associated with your account and shows how much space is left
+
 Hardware or configuration errors
 ================================
 
@@ -194,8 +210,8 @@ Installed software
 
 We use `spack <https://spack.readthedocs.io/en/latest/>`_ for package management on RHPC. This is managed by Jonas Teuwen.
 
-Useful commands
----------------
+Useful commands for Spack
+-------------------------
 
 .. list-table::
    :header-rows: 1
