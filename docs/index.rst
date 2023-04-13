@@ -11,6 +11,7 @@ Welcome to the Kosmos RHPC cluster documentation!
 
    introduction
    connecting
+   data_management
    storage
    slurm_usage_guide
    spack

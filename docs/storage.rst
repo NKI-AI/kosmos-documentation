@@ -27,12 +27,24 @@ Data storage
      - Daily incremental 
      - Only within NKI network
      - Cannot be used to directly load data for training models   
-   * - \mnt\archive\data
+   * - /data
      - ±300TB
-     - rhpc-admin@nki.nl
-     - No
+     - Slack
+     - No. Will be backed up on tapes (slow) in the future.
      - Only within RHPC network (rhpc.nki.nl)
-     - Contains the home folders on RHPC                          
+     - Contains static data for training models
+   * - /projects
+     - ±350TB
+     - Slack
+     - Not by default. Periodic snapshots can be requested.
+     - Only within RHPC network (rhpc.nki.nl)
+     - Contains project-specific data
+   * - /home/<user>
+     - 100GB per user
+     - Slack
+     - Yes. Daily snapshots for one week, monthly snapshots for one year.
+     - Only within RHPC network (rhpc.nki.nl)
+     - Contains user-specific data
    * - Surf Lisa storage
      - 50TB
      - rhpc-admin@nki.nl
