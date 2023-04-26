@@ -9,3 +9,4 @@ Kosmos for administrators (root users)
    mount_drive
    zfs_mounts
    zfs_snapshots
+   cluster_maintenance
