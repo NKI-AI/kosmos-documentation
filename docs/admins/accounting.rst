@@ -84,7 +84,11 @@ Add to the partition you want to limit in the slurm.conf: AllowQos=your_qos . Th
 access to this qos can submit to this partition.
 
 Then the approach is as described above: make new account, make new qos, set the new qos to the new account, add users which you want to be able to submit on this
-partition to the new assoc w/ its qos.
+partition to the new assoc w/ its qos:
+
+.. code-block:: text
+
+   sudo sacctmgr modify user where name=k.groot.lipman account=radiology set qos=normal,rtxqos,a100
 
 Group limits
 ============
