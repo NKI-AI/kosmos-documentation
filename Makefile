@@ -27,10 +27,7 @@ help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
 clean: ## remove build artifacts
-	rm -f docs/dlup.rst
-	rm -f docs/modules.rst
-	rm -f docs/dlup.*.rst
-	rm -rf docs/_build
+	rm -rf kosmos/
 
 docs: clean ## generate Sphinx HTML documentation, including API docs
 	sphinx-build -b html docs/ kosmos
