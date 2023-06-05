@@ -274,7 +274,7 @@ The above command displays the currently running jobs on the cluster, including 
 state, running time, time limit, number of nodes, and the node list.
 
 Additional ``squeue`` commands
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 *   To see only the running jobs for a particular user, you can use the following command:
