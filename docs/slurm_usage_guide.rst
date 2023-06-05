@@ -273,7 +273,7 @@ For more details and available options, refer to the `squeue documentation <http
 The above command displays the currently running jobs on the cluster, including their job ID, partition, name, user,
 state, running time, time limit, number of nodes, and the node list.
 
-Aditional ``squeue`` commands
+Additional ``squeue`` commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
