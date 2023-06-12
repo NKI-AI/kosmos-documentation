@@ -430,6 +430,72 @@ Options of ``nodestat``
     Shows the total resources available on the cluster. This option displays information about the overall resources,
     such as the total number of nodes, CPU cores, and memory available in the cluster.
 
+Quick hacks for requesting interactive jobs using SLURM
+------------------------------------------------------
+Recalling all the correct tags used by ``srun`` may prove to be cumbersome especially if you want to quickly test a small piece of code on the cluster.
+We've got you covered on this front. With the following bash script, all you need to do is input the name of the desired node, number of CPUs and the number of GPUs you require.
+The script will automatically request an interactive session on the desired node with the desired resources. The default memory it requests is 60GB and the time limit on the interactive job is 10 hours.
+Follow the following instructions to make life easier while requesting interactive nodes!
+
+- Copy the following piece of code onto your home folder on the cluster.
+.. code-block:: bash
+    #!/bin/bash
+    echo Requesting node on $1...;
+
+    NODE=$1
+    NUM_CPUS=$2
+    if [ $NODE != "gaia" ];
+    then
+      NUM_GPUS=$3
+    fi
+
+    if [ $NODE == "eudoxus" ] || [ $NODE == "euctemon" ];
+    then
+      QOS=a100_qos
+      PARTITION=a100
+    elif [ $NODE == "aristarchus" ] || [ $NODE == "ptolemaeus" ] || [ $NODE == "galileo" ];
+    then
+      QOS=a6000_qos
+      PARTITION=a6000
+    elif [ $NODE == "gaia" ];
+    then
+      QOS=rtx_qos
+      PARTITION=cpu
+    elif [ $NODE == "mariecurie" ];
+    then
+      QOS=rtx_qos
+      PARTITION=p6000
+    elif [ $NODE == "alanturing" ] || [ $NODE == "hamilton" ];
+    then
+      QOS=rtx_qos
+      PARTITION=rtx2080ti
+    elif [ $NODE == "carlos" ] || [ $NODE == "plato" ] || [ $NODE == "schrodinger" ];
+    then
+      QOS=rtx_qos
+      PARTITION=rtx2080ti_sm
+    else
+      QOS=rtx_qos
+      PARTITION=rtx8000
+    fi
+
+    if [ $NODE != "gaia" ];
+    then
+      srun --nodelist $NODE --job-name "interactive" --ntasks-per-node 1 --cpus-per-task $NUM_CPUS --partition $PARTITION --qos=$QOS --gres gpu:$3 --mem=60G --time 10:00:00 --pty bash
+    else
+      srun --nodelist $NODE --job-name "interactive" --ntasks-per-node 1 --cpus-per-task $NUM_CPUS --partition $PARTITION --qos=$QOS --mem=60G --time 10:00:00 --pty bash
+    fi
+
+- Let's say you name the file as `node.sh` on your home folder. In order to execute it from the terminal, we need to make the file an executable. Run the following from the home folder:
+
+.. code-block:: bash
+
+    chmod +x node.sh
+
+- That's it. The script is now ready to use. As an example, let's say you want 1 GPU and 16 CPUs on aristarchus. All you need to do is run the following from your home folder:
+
+.. code-block:: bash
+
+    ./node.sh aristarchus 16 1
 
 Additional Resources
 --------------------
