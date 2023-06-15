@@ -13,6 +13,7 @@ Welcome to the Kosmos RHPC cluster documentation!
    connecting
    data_management
    storage
+   requests
    slurm_usage_guide
    spack
    pycharm_remote
