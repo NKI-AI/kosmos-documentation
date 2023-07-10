@@ -58,21 +58,21 @@ account, we create first a new account by
 
 .. code-block:: text
 
-   sacctmgr add user e.marcus account=two_gpu
+   sacctmgr add user username account=two_gpu
 
 If we want to make this two_gpu account the default one, where jobs are run from standardly, 
 then we modify the user by
 
 .. code-block:: text
 
-   sacctmgr modify user where user=e.marcus set defaultaccount=two_gpu
+   sacctmgr modify user where user=username set defaultaccount=two_gpu
 
 Afterward it is good practice to delete the user from the older account, otherwise,
 the user couls still append ``--Account=older_account`` when running jobs to circumvent limits.
 
 .. code-block:: text
 
-   sudo sacctmgr delete user where name=e.marcus account=older_account
+   sudo sacctmgr delete user where name=username account=older_account
 
 The user can now only ask for max 2 gpus
 
@@ -88,7 +88,7 @@ partition to the new assoc w/ its qos:
 
 .. code-block:: text
 
-   sudo sacctmgr modify user where name=k.groot.lipman account=radiology set qos=normal,rtxqos,a100
+   sudo sacctmgr modify user where name=username account=[radiology,aifo,mann] set qos=[rtx_qos,a6000_qos,four_a6000_qos,a100_qos,four_a100_qos] 
 
 Group limits
 ============
