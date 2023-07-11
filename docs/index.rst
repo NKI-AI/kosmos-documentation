@@ -20,3 +20,4 @@ Welcome to the Kosmos RHPC cluster documentation!
    singularity
    admins/index
    faq
+   notes
