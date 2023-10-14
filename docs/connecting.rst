@@ -72,13 +72,8 @@ Ubuntu/WSL/MacOS: To jump between rhpc servers
      Compression yes
      ForwardX11 yes
 
-   Host rhpc-wallace
-     Hostname wallace
-     User <enter your RHPC username>
-     ProxyJump rhpc
-
-   Host rhpc-atlas
-     Hostname atlas
+   Host rhpc-gaia
+     Hostname gaia
      User <enter your RHPC username>
      ProxyJump rhpc
 
@@ -94,11 +89,6 @@ Ubuntu/WSL/MacOS: To jump between rhpc servers
 
    Host rhpc-eudoxus
      Hostname eudoxus
-     User <enter your RHPC username>
-     ProxyJump rhpc
-
-   Host rhpc-eratosthenes
-     Hostname eratosthenes
      User <enter your RHPC username>
      ProxyJump rhpc
 
@@ -212,16 +202,6 @@ Windows Powershell: To jump between rhpc servers
         Compression yes
         ForwardX11 yes
 
-      Host rhpc-wallace
-        User <username>
-        HostName wallace
-        ProxyCommand ssh -W %h:%p rhpc
-
-      Host rhpc-atlas
-        User <username>
-        HostName atlas
-        ProxyCommand ssh -W %h:%p rhpc
-
       Host rhpc-aristarchus
         User <username>
         HostName aristarchus
@@ -237,8 +217,8 @@ Windows Powershell: To jump between rhpc servers
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
-      Host rhpc-eratosthenes
-        Hostname eratosthenes
+      Host rhpc-gaia
+        Hostname gaia
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
@@ -247,8 +227,8 @@ Windows Powershell: To jump between rhpc servers
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
-      Host rhpc-wilhelmroentgen
-        Hostname wilhelmroentgen
+      Host rhpc-roentgen
+        Hostname roentgen
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 

@@ -10,6 +10,7 @@ Welcome to the Kosmos RHPC cluster documentation!
    :maxdepth: 1
 
    introduction
+   practices
    connecting
    data_management
    storage
