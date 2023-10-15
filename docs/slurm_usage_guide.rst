@@ -398,6 +398,8 @@ Running using a docker container
 
 This needs to be written, but currently the pyxis is supported, so go ahead and check that out.
 
+.. _nodestat-command:
+
 The ``nodestat`` command
 ------------------------
 

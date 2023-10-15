@@ -37,3 +37,5 @@ make uploaddocs
 This commands will first clean HTML and other files under the directory `kosmos` if previously `make uploaddocs` was performed. After that it will generate the HTML files for the documentation in the `kosmos` directory.
 
 ## Viewing the Documentation
+
+Generated documentation can be found at the website https://docs.aiforoncology.nl/kosmos/.

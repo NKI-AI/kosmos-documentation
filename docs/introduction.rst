@@ -13,30 +13,10 @@ In a typical setting, multiple users will use the same server simultaneously. Th
 
 Kosmos uses scheduling set by slurm. We have a description on :ref:`how to use slurm<slurm-usage-guide>`.
 
-The :ref:`storage<storage>` page mentions the available storage options. On each machine there is a mounted path ``/mnt/archives`` linking to a file server. This path can be used to store archives which are considered to be *raw data,* for instance, .svs or dicom files. These folders can only be created by admins and are supposed to be read-only. Processed files, or temporary files for which you have a script that converts the raw archive to data used for your model can be stored in your own home directory.
+The :ref:`storage<storage>` page mentions the available storage options. On each machine there is a mounted path ``/mnt/`` linking to a file server. This path can be used to store archives which are considered to be *raw data,* for instance, .svs or dicom files. These folders can only be created by admins and are supposed to be read-only. Processed files, or temporary files for which you have a script that converts the raw archive to data used for your model can be stored in your own home directory.
 
-Typically ``/mnt/archives`` is not fast enough to use to train a model. **This can lead to slowdowns for all users.** Therefore, each machine is equipped with a fast SSD storage in RAID-6, mounted in ``/processing``:
-
-
-* ``/processing`` is the scratch disk, which is local to the machine
-
-* When you login ``/processing/<username>`` is created and has permissions 700 (no other regular users can read this) for your own user.
-
-* The folder is stored in the environment variable ``SCRATCH``, so no need to hardcode this! You can now rsync to ``$SCRATCH``.
-
-* The ``/processing`` disk will be wiped (oldest files first) if it is getting full!
-
-Make sure to not constantly load large files during training from the network storage (this includes home). Not only will this be slow, but will also impact all other users.
-
-Make sure to not store important training artefacts on the ``/processing`` drive as these can be deleted without warning. Use the project data folders for persistent storage.
-
-The processing folders of the GPU nodes are mounted on eratosthenes in ``/mnt/processing/<hostname>`` so you can inspect the folders without needing to schedule a job one a compute node.
-
-Transferring data before training can be done with ``rsync``. For instance, before training you could execute syncing your source with scratch.
-
-.. code-block:: java
-
-   rsync -avv --info=progress2 --delete <SOURCE> $SCRATCH
+The :ref:`Training/ Inference on Cluster Best Practices<practices>` page mentions best practices for training
+or performing inference on the cluster.
 
 Hardware
 ========
@@ -48,77 +28,34 @@ Below lists the current available hardware.
 GPU nodes
 ---------
 
-.. list-table::
-   :header-rows: 1
-   
-   * - Hostname
-     - GPUs
-     - CPUs
-     - Memory
-     - Scratch
-     - Network
-     - Installed
-     - Remarks
-   * - wallace
-     - 8x Quadro RTX8000\ :sup:`1` (48GB)
-     - 2x Intel Xeon Gold 6262V(24 cores)
-     - 384GB
-     - ±13TB
-     - 10 Gbps
-     - May 2020
-     - Not part of KOSMOS
-   * - aristarchus
-     - 8x Quadro A6000\ :sup:`2` (48GB)
-     - 2 x AMD EPYC 7542 (2nd gen)(32 cores)
-     - 1TB
-     - ±21TB
-     - 40 Gbps
-     - May 2021
-     -
-   * - ptolemaeus
-     - 8x Quadro A6000\ :sup:`2` (48GB)
-     - 2 x AMD EPYC 7542 (2nd gen)(32 cores)
-     - 1TB
-     - ±21TB
-     - 40 Gbps
-     - May 2021
-     -
-   * - eudoxus
-     - 8x A100\ :sup:`2` (80GB)
-     - 2 x AMD EPYC 7543 SP3 (3rd gen)(32 cores)
-     - 1TB
-     - ±21TB
-     - 40 Gbps
-     - April 2022
-     -
-   * - euctemon
-     - 8x A100\ :sup:`2` (80GB)
-     - 2 x AMD EPYC 7543 SP3 (3rd gen)(32 cores)
-     - 1TB
-     - ±21TB
-     - 40 Gbps
-     - September 2022
-     -
-   * - plato
-     - 2x RTX2080Ti (11GB)
-     - 1x i9-7920X CPU @ 2.90GHz (12 cores)
-     - 120GB
-     - ±8TB
-     - 1 Gbps
-     - August 2022
-     -
-   * - schrodinger
-     - 2x RTX2080Ti (11GB)
-     - 1x i9-7920X CPU @ 2.90GHz (12 cores)
-     - 120GB
-     - ±8TB
-     - 1 Gbps
-     - August 2022
-     -
++--------------+-------------+---------------------------------+------+------+---------+
+| PARTITION    | NODE        | GPU TYPE                        | CPUS | GPUS | MEM (G) |
++==============+=============+=================================+======+======+=========+
+| a100         | euctemon    | NVIDIA A100 80GB                | 128  | 8    | 980     |
++--------------+-------------+---------------------------------+------+------+---------+
+| a100         | eudoxus     | NVIDIA A100 80GB                | 128  | 8    | 980     |
++--------------+-------------+---------------------------------+------+------+---------+
+| a6000        | aristarchus | NVIDIA RTX A6000 48GB           | 128  | 8    | 980     |
++--------------+-------------+---------------------------------+------+------+---------+
+| a6000        | galileo     | NVIDIA RTX A6000 48GB           | 128  | 8    | 490     |
++--------------+-------------+---------------------------------+------+------+---------+
+| a6000        | ptolemaeus  | NVIDIA RTX A6000 48GB           | 128  | 8    | 980     |
++--------------+-------------+---------------------------------+------+------+---------+
+| p6000        | mariecurie  | NVIDIA Quadro P6000 24GB        | 40   | 4    | 122     |
++--------------+-------------+---------------------------------+------+------+---------+
+| rtx2080ti    | alanturing  | NVIDIA GeForce RTX 2080 Ti 11GB | 40   | 8    | 489     |
++--------------+-------------+---------------------------------+------+------+---------+
+| rtx2080ti    | hamilton    | NVIDIA GeForce RTX 2080 Ti 11GB | 40   | 8    | 244     |
++--------------+-------------+---------------------------------+------+------+---------+
+| rtx2080ti_sm | carlos      | NVIDIA GeForce RTX 2080 Ti 11GB | 24   | 2    | 91      |
++--------------+-------------+---------------------------------+------+------+---------+
+| rtx2080ti_sm | plato       | NVIDIA GeForce RTX 2080 Ti 11GB | 24   | 2    | 122     |
++--------------+-------------+---------------------------------+------+------+---------+
+| rtx2080ti_sm | schrodinger | NVIDIA GeForce RTX 2080 Ti 11GB | 24   | 2    | 91      |
++--------------+-------------+---------------------------------+------+------+---------+
+| rtx8000      | roentgen    | NVIDIA Quadro RTX 8000 48GB     | 40   | 4    | 244     |
++--------------+-------------+---------------------------------+------+------+---------+
 
-*1 Requires CUDA >= 10.*
-
-*2 Requires CUDA >= 11, needs capability sm_86 as the Quadro A6000s and A100s use the Ampere architecture.*
 
 
 Storage nodes
@@ -168,19 +105,16 @@ CPU nodes
      - Memory
      - Scratch
      - Network
-     - Software stack
      - Installed
      - Status
-   * - eratosthenes
-     - 2 x AMD EPYC 7402 SP3 24-core 2.8GHz
-     - 256GB
+   * - gaia
+     - 256 cpu cores
+     - 490GB
      - ±11TB
      - 40 Gbps
-     - Ubuntu 20.04Docker\ :sup:`3` / Singularity / Enroot
-     - April 2022
-     - Main login node
+     - 2023
+     - CPU only node. Access through slurm
 
-*3 Requires root permissions, can be used through slurm with pyxis.*
 
 The CPU nodes can be used for all kinds of tasks which do not require GPUs, such as preprocessing data, running tensorboard, etc.
 
@@ -195,7 +129,7 @@ Useful command for resources
      - Description
    * - ``nodestat``
      - ``-j``
-     - Gives a list of the nodes and the resources they have/ that are available.
+     - Gives a list of the nodes and the resources they have/ that are available. Check out :ref:`nodestat-command` for more information.
    * - ``myquota``
      - 
      - Gives a list of storage associated with your account and shows how much space is left
