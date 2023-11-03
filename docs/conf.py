@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Kosmos documentation'
+project = 'Kosmos cluster'
 copyright = '2022, AI for Oncology'
 author = 'AI for Oncology'
 
