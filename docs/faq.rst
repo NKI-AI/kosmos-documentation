@@ -42,3 +42,11 @@ in the root directory of this project or home folder. Now delete stuff according
    df -h .
 
 again. We're phasing out this behavior, but in case you're still running into the issue, please contact #tech-hpc-cluster.
+
+
+How to view the available qos options for my account?
+""""""""""""""""""""""""""""""""""""
+
+.. code-block:: bash
+
+   sacctmgr show assoc where user=<user.id>
