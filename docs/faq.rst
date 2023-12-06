@@ -45,7 +45,7 @@ again. We're phasing out this behavior, but in case you're still running into th
 
 
 How to view the available qos options for my account?
-""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 .. code-block:: bash
 
