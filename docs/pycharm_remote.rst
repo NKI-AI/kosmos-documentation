@@ -110,6 +110,10 @@ Connections can also be added manually. For this, select ``Remote-SSH: Add New S
 Connecting to the Cluster via the Remote-SSH Extension
 ------------------------
 
-Now that the hosts are set up, we can connect to the cluster. Select ``Remote-SSH: Connect to Host...`` from the Command Palette, and pick the host you want to connect to from the list (note that for most hosts, you will have to start a job via rhpc-kosmos first). If asked to supply the platform type of the server, select Linux. VScode will now attempt to connect to your selected host. Keep an eye out on your terminal and "output" tab, as you may be asked to input your username and/or password the first time you connect. 
+   **Warning** *: Make sure to* **never** *connect VS code to* ``kosmos`` *directly. This will download VS code files on the node that slow the server down for all users. Always open a seperate terminal to shh into* ``kosmos`` *and request a job for a compute node from there. You can then connect VS code to that node using the instructions below.*
+
+
+Now that the hosts are set up, we can connect to the cluster. Select ``Remote-SSH: Connect to Host...`` from the Command Palette, and pick the host you want to connect to from the list. This can be any host that you have submitted a job request for on kosmos (and of course never connect VS code to kosmos itself); ``gaia`` is a good choice for general purposes, file-management and projects where you need processor power, but you can also directly connect to any of the compute nodes (such as ``hamilton``, ``turing``) to run/debug from there. 
+If asked to supply the platform type of the server, select Linux. VScode will now attempt to connect to your selected host. Keep an eye out on your terminal and "output" tab, as you may be asked to input your username and/or password the first time you connect. 
 
 If all went well, you will be ready for remote development! Any folders on the server can be opened as folders in VS code, saved code will be updated automatically, and any terminal you open will act on the server. 
