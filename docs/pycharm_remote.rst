@@ -13,9 +13,9 @@ PyCharm can be tricky to set up properly, and the steps below should guide you t
 SSH connections
 ---------------
 
-First, you’ll want to set up (in PyCharm) the SSH connections that you’re going to need, which you can do in Preferences -> Tools -> SSH Configurations. You definitely need a setup for ``eratosthenes`` in order to do the deployment/sync, and then some more connections to the compute nodes for connecting to a remote interpreter. In this example, i’ll use ``ptolemaeus`` as a target for that.
+First, you’ll want to set up (in PyCharm) the SSH connections that you’re going to need, which you can do in Preferences -> Tools -> SSH Configurations. You definitely need a setup for the node you wish to connect to (for example ``gaia``, ``hamilton``, etc.) in order to do the deployment/sync, and then some more connections to the compute nodes for connecting to a remote interpreter. In this example, I’ll use ``ptolemaeus`` as a target for that and ``gaia`` as the node I want to connect to.
 
-So, we create two connections, which I call ``rhpc-eratosthenes`` and ``rhpc-ptolemaeus``.  Use the local .ssh/config file for authentication, and keep all other default settings. These are then available globally in PyCharm (i.e. not project-specific). Test the connections with the button just to be sure. In my setup, I created a directory ~/pycharm-sync in my homefolder on the rhpc cluster to sync all projects to, but you may want to use a different method of course.
+So, we create two connections, which I call ``rhpc-gaia`` and ``rhpc-ptolemaeus``.  Use the local .ssh/config file for authentication, and keep all other default settings. These are then available globally in PyCharm (i.e. not project-specific). Test the connections with the button just to be sure. In my setup, I created a directory ~/pycharm-sync in my homefolder on the rhpc cluster to sync all projects to, but you may want to use a different method of course.
 
 Next, create a pycharm project on your local machine (and add code if you wish). So far it’s all quite straightforward, now the actual deployment/interpreter setup starts.
 
@@ -24,19 +24,19 @@ Remote deployment/sync
 
 This creates a configuration for pycharm so that it knows where to upload the code you edit locally.  If you do this properly, every time you save a file locally it’ll get synced to the remote server instantly.
 
-#. Go to Tools -> Deployment -> Configuration, and click the + button to create a new configuration (SFTP). Enter some name (``rhpc-eratosthenes`` in my case, it’s not important).
-#. Choose the ``eratosthenes`` SSH configuration that you made earlier. Test the connection, this should work fine [#]_. You can autodetect the root path, which it’ll set to your home directory (I find this convenient).
+#. Go to Tools -> Deployment -> Configuration, and click the + button to create a new configuration (SFTP). Enter some name (``rhpc-gaia`` in my case, it’s not important).
+#. Choose the ``gaia`` SSH configuration that you made earlier. Test the connection, this should work fine [#]_. You can autodetect the root path, which it’ll set to your home directory (I find this convenient).
 #. Check the ``rsync`` option if that works for you, apparently this is troublesome on Windows, but it’s super nice if you can use it.
 #. Configure path mappings in the “Mappings” tab. The local path should point to your local project root, the deployment path should be the relative path to the folder your project should sync to (relative to the rooth path you specified earlier). In my case, this deployment path is simply ``pycharm-sync/<project-name>``. I don’t use the web path.
 #. Now set this configuration as the default by clicking the check mark ✓ in the top left. PyCharm is a little stubborn here so you may need to do so again later on.
 #. If it isn’t already enabled, make sure to set the project to “automatic upload”.
-#. Upload the project. You can either do this through Tools -> Deployment -> Upload to ``rhpc-eratosthenes``, or right click the root project folder in the project explorer and go to the deployment context menu.
+#. Upload the project. You can either do this through Tools -> Deployment -> Upload to ``rhpc-gaia``, or right click the root project folder in the project explorer and go to the deployment context menu.
 #. Check whether all files made it to your filesystem on the rhpc cluster properly (after upload has completed).
 
 .. [#] In case it doesn't your SSH is most likely not up to date, which happens most likely with pre-installed version on NKI-Windows systems. Should be fixed after the following steps
 
    #. Download and install the most recent version of SSH: https://github.com/PowerShell/Win32-OpenSSH/releases
-   #. Change the Proxycommand for rhpc-eratosthenes to use the newer SSH install:
+   #. Change the Proxycommand for rhpc-gaia to use the newer SSH install:
 
 .. code-block:: java
 
@@ -48,8 +48,8 @@ This creates a configuration for pycharm so that it knows where to upload the co
      Compression yes
      ForwardX11 yes
 
-   Host rhpc-eratosthenes
-     Hostname eratosthenes
+   Host rhpc-gaia
+     Hostname gaia
      User <username>
      ProxyCommand <path/to/new/install>/ssh.exe -W %h:%p rhpc
 
@@ -64,7 +64,7 @@ You'll need to add separate interpreters for every node that you want to use, fo
 #. In the “Interpreter” box, navigate to the interpreter in your conda environment. As an example, for me it’s /home/j.brunekreef/miniconda3/envs/<env-name>/bin/python3.9 .
 #. Remove the sync folder configuration. This is important!! It defaults to something like /tmp/pycharm_project_xxx, but you want to delete this. Open this configuration, click the single row, and click the - sign to remove the configuration. Confirm by clicking OK.
 #. Finalize creating the interpreter by clicking Create.
-#. Now verify whether your deployment configuration hasn’t been messed up by these previous steps. You should mostly check whether the ``rhpc-eratosthenes`` configuration that you created for deployment is indeed still the default, and that it wasn’t overridden by some connection in the remote interpreter.
+#. Now verify whether your deployment configuration hasn’t been messed up by these previous steps. You should mostly check whether the ``rhpc-gaia`` configuration that you created for deployment is indeed still the default, and that it wasn’t overridden by some connection in the remote interpreter.
 
 
 You can now check whether the remote interpreter works by going to the Python console in PyCharm, this should give you a console on the remote server. For example, enter
@@ -86,6 +86,7 @@ In the path mapping, specify that the local project root should be mapped to the
 
     ``/Users/joren/Code/<project-name> = /home/j.brunekreef/pycharm-sync/<project-name>``
 
+All done! When connecting to you desired node, don't forgot to request a job for that node (``gaia`` in this example) by ssh-ing into kosmos via your terminal and doing the job request. 
 
 =======================
 Visual Studio Code and the Cluster
