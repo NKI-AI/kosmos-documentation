@@ -1,14 +1,19 @@
 =======================
-PyCharm and the cluster
+Connecting Your IDE to the Cluster
 =======================
 
-PyCharm can be configured with remote interpreters, allowing you to run/debug code directly on the RHPC cluster nodes. It is tricky to get this set up properly, and the steps below should guide you through the process. Make sure to update PyCharm to the most recent version — the interface may be different for older versions (e.g. < 2022). 
+Both PyCharm and Visual Studio Code can be configured for remote development on the cluster via SSH, allowing you to run/debug code directly on the RHPC cluster nodes. Below, you can find the steps for setting up remote development on either PyCharm or Visual Studio Code.
 
+=======================
+PyCharm and the Cluster
+=======================
+
+PyCharm can be tricky to set up properly, and the steps below should guide you through the process. Make sure to update PyCharm to the most recent version — the interface may be different for older versions (e.g. < 2022). 
 
 SSH connections
 ---------------
 
-First you’ll want to set up (in PyCharm) the SSH connections that you’re going to need, which you can do in Preferences -> Tools -> SSH Configurations. You definitely need a setup for ``eratosthenes`` in order to do the deployment/sync, and then some more connections to the compute nodes for connecting to a remote interpreter. In this example, i’ll use ``ptolemaeus`` as a target for that.
+First, you’ll want to set up (in PyCharm) the SSH connections that you’re going to need, which you can do in Preferences -> Tools -> SSH Configurations. You definitely need a setup for ``eratosthenes`` in order to do the deployment/sync, and then some more connections to the compute nodes for connecting to a remote interpreter. In this example, i’ll use ``ptolemaeus`` as a target for that.
 
 So, we create two connections, which I call ``rhpc-eratosthenes`` and ``rhpc-ptolemaeus``.  Use the local .ssh/config file for authentication, and keep all other default settings. These are then available globally in PyCharm (i.e. not project-specific). Test the connections with the button just to be sure. In my setup, I created a directory ~/pycharm-sync in my homefolder on the rhpc cluster to sync all projects to, but you may want to use a different method of course.
 
@@ -62,7 +67,7 @@ You'll need to add separate interpreters for every node that you want to use, fo
 #. Now verify whether your deployment configuration hasn’t been messed up by these previous steps. You should mostly check whether the ``rhpc-eratosthenes`` configuration that you created for deployment is indeed still the default, and that it wasn’t overridden by some connection in the remote interpreter.
 
 
-You can now check whether the remote interpreter works by going to the Python console in pycharm, this should give you a console on the remote server. For example, enter
+You can now check whether the remote interpreter works by going to the Python console in PyCharm, this should give you a console on the remote server. For example, enter
 
 .. code-block:: python
 
@@ -80,3 +85,30 @@ Select the python interpreter you just created. The working directory should be 
 In the path mapping, specify that the local project root should be mapped to the remote project root. So, for example:
 
     ``/Users/joren/Code/<project-name> = /home/j.brunekreef/pycharm-sync/<project-name>``
+
+
+=======================
+Visual Studio Code and the Cluster
+=======================
+
+Setting up VS code for remote development on the cluster is a rather straightforward process. The following instructions will guide you through the steps, assuming your VS code version is up-to-date (>2023). 
+
+
+Downloading the Remote-SSH Extension
+------------------------
+
+To connect VS code to the cluster, we will use the convenient Remote-SSH extension created by Microsoft. There are two ways to get this extension: it can either be downloaded from the extensions menu of VS code by searching for its name, or, it can automatically be downloaded as part of the Remote Development extension pack of VS code. To add this pack, simply click the blue "remote host" button (also called "open a remote window" in some versions) in the bottom left corner of your VS code window and select "SSH". The extension will now be installed. 
+
+Setting up the Remote-SSH Extension
+------------------------
+
+Now that we have downloaded the extension, we can set up our connection to RHPC. Connections can be added manually, but the extension also includes the option to load your ssh ``config`` file, allowing you to immediately add all necessary connections. Navigate to the Remote-SSH extension, either via the remote window-button, or via the command palette and select ``Remote-SSH: Open SSH Configuration File...``. You will now be prompted for the location of your config file, which by default is ``~/.ssh/config``. The config file should now successfully be loaded and from now on, a list of all host connections will appear when you select ``Remote-SSH: Connect to Host...`` from the Command Palette. 
+
+Connections can also be added manually. For this, select ``Remote-SSH: Add New SSH Host...`` from the command palette. Next, input the command that you would usually use to connect to the cluster, i.e. ``ssh rhpc-kosmos`` and the ``config`` file when prompted. Your host will now show up in the possible connections list. 
+
+Connecting to the Cluster via the Remote-SSH Extension
+------------------------
+
+Now that the hosts are set up, we can connect to the cluster. Select ``Remote-SSH: Connect to Host...`` from the Command Palette, and pick the host you want to connect to from the list (note that for most hosts, you will have to start a job via rhpc-kosmos first). If asked to supply the platform type of the server, select Linux. VScode will now attempt to connect to your selected host. Keep an eye out on your terminal and "output" tab, as you may be asked to input your username and/or password the first time you connect. 
+
+If all went well, you will be ready for remote development! Any folders on the server can be opened as folders in VS code, saved code will be updated automatically, and any terminal you open will act on the server. 
