@@ -4,14 +4,14 @@ Connecting Your IDE to the Cluster
 
 Both PyCharm and Visual Studio Code can be configured for remote development on the cluster via SSH, allowing you to run/debug code directly on the RHPC cluster nodes. Below, you can find the steps for setting up remote development on either PyCharm or Visual Studio Code.
 
-=======================
+-----------------------
 PyCharm and the Cluster
-=======================
+-----------------------
 
 PyCharm can be tricky to set up properly, and the steps below should guide you through the process. Make sure to update PyCharm to the most recent version — the interface may be different for older versions (e.g. < 2022). 
 
 SSH connections
----------------
+^^^^^^^^^^^^^^^
 
 First, you’ll want to set up (in PyCharm) the SSH connections that you’re going to need, which you can do in Preferences -> Tools -> SSH Configurations. You definitely need a setup for the node you wish to connect to (for example ``gaia``, ``hamilton``, etc.) in order to do the deployment/sync, and then some more connections to the compute nodes for connecting to a remote interpreter. In this example, we’ll use ``ptolemaeus`` as a target for that and ``gaia`` as the node I want to connect to.
 
@@ -20,7 +20,7 @@ So, we create two connections, which we call ``rhpc-gaia`` and ``rhpc-ptolemaeus
 Next, create a pycharm project on your local machine (and add code if you wish). So far it’s all quite straightforward, now the actual deployment/interpreter setup starts.
 
 Remote deployment/sync
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 This creates a configuration for pycharm so that it knows where to upload the code you edit locally.  If you do this properly, every time you save a file locally it’ll get synced to the remote server instantly.
 
@@ -55,7 +55,7 @@ This creates a configuration for pycharm so that it knows where to upload the co
 
 
 Remote interpeter
------------------
+^^^^^^^^^^^^^^^^^
 
 You'll need to add separate interpreters for every node that you want to use, for every project individually (assuming that you have different environments for different projects, which you probably should).
 
@@ -77,7 +77,7 @@ You can now check whether the remote interpreter works by going to the Python co
 this should print ``ptolemaeus`` in my example configuration
 
 Run/debug configurations
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Now the only thing left to do is to create run/debug configurations. Add a python run configuration.
 The script path should be the path to your local python script. You’ll need to map it to the remote file manually (I didn’t find a smarter way of doing this), I’ll get to that.
@@ -88,27 +88,27 @@ In the path mapping, specify that the local project root should be mapped to the
 
 All done! When connecting to you desired node, don't forgot to request a job for that node (``gaia`` in this example) by ssh-ing into kosmos via your terminal and doing the job request. 
 
-==================================
+----------------------------------
 Visual Studio Code and the Cluster
-==================================
+----------------------------------
 
 Setting up VS Code for remote development on the cluster is a rather straightforward process. The following instructions will guide you through the steps, assuming your VS Code version is up-to-date (>2023). 
 
 
 Downloading the Remote-SSH Extension
-------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To connect VS Code to the cluster, we will use the convenient Remote-SSH extension created by Microsoft. There are two ways to get this extension: it can either be downloaded from the extensions menu of VS Code by searching for its name, or, it can automatically be downloaded as part of the Remote Development extension pack of VS code. To add this pack, simply click the blue "remote host" button (also called "open a remote window" in some versions) in the bottom left corner of your VS code window and select "SSH". The extension will now be installed. 
 
 Setting up the Remote-SSH Extension
------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Now that we have downloaded the extension, we can set up our connection to RHPC. Connections can be added manually, but the extension also includes the option to load your ssh ``config`` file, allowing you to immediately add all necessary connections. Navigate to the Remote-SSH extension, either via the remote window-button, or via the command palette and select ``Remote-SSH: Open SSH Configuration File...``. You will now be prompted for the location of your config file, which by default (on Linux) is ``~/.ssh/config``. The config file should now successfully be loaded and from now on, a list of all host connections will appear when you select ``Remote-SSH: Connect to Host...`` from the Command Palette. 
 
 Connections can also be added manually. For this, select ``Remote-SSH: Add New SSH Host...`` from the command palette. Next, input the command that you would usually use to connect to the cluster, i.e. ``ssh rhpc-gaia`` and the ``config`` file when prompted. Your host will now show up in the possible connections list. 
 
 Connecting to the Cluster via the Remote-SSH Extension
-------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
    **Warning** *: Make sure to* **never** *connect VS Code to* ``kosmos`` *directly. This will run a VS Code server on the login node that slows the server down for all users. Always request a job on a compute node (either CPU or GPU) first, and then connect VS code to that node using the instructions below. You risk a temporary cluster ban if you run VS Code directly on* ``kosmos`` *.*
 
