@@ -20,5 +20,6 @@ We refer to `servicedesk.surf.nl/wiki/display/WIKI/Snellius <https://servicedesk
 
 Shared storage
 --------------
+/projects/0/nksr0630. The purpose of this folder is to be analogous to /data/groups/aiforoncology on kosmos. The total storage is 10TB.
 
 
