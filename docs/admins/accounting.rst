@@ -53,6 +53,12 @@ Now let us set the qos of our new account to the new qos:
 Adding users to new account
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Show which qos a user currently belongs to:
+
+.. code-block:: text
+
+   sacctmgr show assoc where user=<username> format=user,qos
+
 Now we can add users to the new account. Even if the user already exists in an older
 account, we create first a new account by
 

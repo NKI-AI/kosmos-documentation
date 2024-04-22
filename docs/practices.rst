@@ -58,7 +58,6 @@ When setting up your training job, it's recommended to "train from scratch" usin
       python train.py --data /processing/<username>/training_data
       ```
 
-
     - **Training from Network**: **Avoid** this method if possible, as it can be slow and may negatively impact cluster performance.
 
       Example command for training from network:
@@ -67,12 +66,18 @@ When setting up your training job, it's recommended to "train from scratch" usin
       python train.py --data /path/to/your/network/data
       ```
 
+We urge everybody to ensure they have near-optimal GPU utilization (near 100%) on the A6000 and A100 GPUs. If you cannot
+get your code optimized to achieve this, please use an RTX node instead. Note that if you want to debug with 48GB of
+VRAM, you should preferably use roentgen (slower 48GB gpus than A6000).
+
 3. Inference
 -------------
 
 When it comes to running inference, it's generally acceptable to perform inference from network storage.
 Inference typically involves smaller data transfer and is less resource-intensive compared to training.
 This means that you can retrieve your model and input data directly from network storage when performing inference tasks.
+
+If you run inference with less than 11GB VRAM needed, please use a 2080ti for inference.
 
 4. Best Practice
 -----------------
@@ -81,7 +86,7 @@ Following these best practices ensures efficient use of cluster resources and a 
 
 Remember to clean up any temporary data or files when your job is finished to keep the scratch disks available for others. Avoid storing important training artifacts on the `/processing/` drive, as these can be deleted without warning. Use project data folders for persistent storage.
 
-The processing folders of the GPU nodes are mounted on eratosthenes in `/mnt/processing/<hostname>`, so you can inspect the folders without needing to schedule a job on a compute node.
+The processing folders of the GPU nodes are mounted on kosmos/gaia in `/mnt/processing/<hostname>`, so you can inspect the folders without needing to schedule a job on a compute node.
 
 Conclusion
 -----------
