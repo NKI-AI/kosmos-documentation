@@ -15,7 +15,7 @@ Updating slurm parameters
 -------------------------
 To update slurm parameters like which gpu belongs to which qos and
 configure the default number of gpus change the slurm.conf on
-atlas:/ect/slurm/slurm.conf and reconfigure slurm by running
+atlas:/etc/slurm/slurm.conf and reconfigure slurm by running
 
 .. code-block:: bash
 
