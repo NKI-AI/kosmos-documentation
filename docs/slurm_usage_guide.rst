@@ -59,14 +59,14 @@ If you encounter errors upon launching new jobs with an invalid QoS specificatio
 +---------------------+---------------------+-----------------+
 | Partition           | QoS Specification   | Maximum GPUs    |
 +=====================+=====================+=================+
-| A6000               | --qos=a6000_qos     | 2               |
+| A6000 and rtx8000   | --qos=a6000_qos     | 2               |
 +---------------------+---------------------+-----------------+
 | A100                | --qos=a100_qos      | 2               |
 +---------------------+---------------------+-----------------+
 | All Other Partitions| --qos=rtx_qos       | 4               |
 +---------------------+---------------------+-----------------+
 
-For the A6000 partition, use the `--qos=a6000_qos` option, which allows a maximum of 2 GPUs.
+For the A6000 and rtx8000 partitions (both are 48GB GPUs), use the `--qos=a6000_qos` option, which allows a maximum of 2 GPUs.
 Similarly, for the A100 partition, use `--qos=a100_qos` with a maximum of 2 GPUs.
 For all other partitions, including RTX, use `--qos=rtx_qos` and a maximum of 4 GPUs.
 

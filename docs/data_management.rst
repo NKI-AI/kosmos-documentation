@@ -16,7 +16,7 @@ Personal home directories are located at ``/home/<user>``\ . The home folders ar
 
 will display the contents of this virtual directory. The snapshot directories are read-only, and reflect the state of the user's home folder at the time of the snapshot.
 
-Project folders are located at ``/projects/<project_name>``\ . New project folders can be requested in the #tech-kosmos-requests Slack channel, following the predefined template. When requesting project folders with capacities over 500GB, please provide a detailed reason (ideally involving a rough calculation) for the higher disk space requirements.
+Project folders are located at ``/projects/<project_name>``\ . New project folders can be requested in the #tech-kosmos-requests Slack channel, following the predefined template (more information in :ref:`requests`). When requesting project folders with capacities over 100GB, please provide a detailed reason (ideally involving a rough calculation) for the higher disk space requirements.
 
 By default, no periodic snapshots are made of project folders. Project folder snapshotting is available upon request --- for example, if you are nearing the end of a project and want to guard against accidental loss of vital project data. Such requests can be posted in the #tech-kosmos-requests Slack channel, as a reply to your original project folder request message.
 

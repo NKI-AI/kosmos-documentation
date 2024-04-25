@@ -19,7 +19,7 @@ Welcome to the Kosmos RHPC cluster documentation!
    slurm_usage_guide
    spack
    snellius
-   pycharm_remote
+   pycharm_vscode_remote
    singularity
    admins/index
    faq
