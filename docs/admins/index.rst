@@ -12,3 +12,4 @@ Kosmos for administrators (root users)
    cluster_maintenance
    project_folders
    troubleshooting
+   task_division
