@@ -77,6 +77,31 @@ Ubuntu/WSL/MacOS: To jump between rhpc servers
      User <enter your RHPC username>
      ProxyJump rhpc
 
+   Host rhpc-euctemon
+     Hostname euctemon
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
+   Host rhpc-galileo
+     Hostname galileo
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
+   Host rhpc-herakles
+     Hostname herakles
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
+   Host rhpc-plato
+     Hostname plato
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
+   Host rhpc-schrodinger
+     Hostname schrodinger
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
    Host rhpc-ptolemaeus
      Hostname ptolemaeus
      User <enter your RHPC username>
@@ -99,11 +124,6 @@ Ubuntu/WSL/MacOS: To jump between rhpc servers
 
    Host rhpc-roentgen
      Hostname roentgen
-     User <enter your RHPC username>
-     ProxyJump rhpc
-
-   Host rhpc-mariecurie
-     Hostname mariecurie
      User <enter your RHPC username>
      ProxyJump rhpc
 
@@ -217,6 +237,21 @@ Windows Powershell: To jump between rhpc servers
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
+      Host rhpc-euctemon
+        Hostname euctemon
+        User <enter your RHPC username>
+        ProxyCommand ssh -W %h:%p rhpc
+
+      Host rhpc-galileo
+        Hostname galileo
+        User <enter your RHPC username>
+        ProxyCommand ssh -W %h:%p rhpc
+
+      Host rhpc-herakles
+        Hostname herakles
+        User <enter your RHPC username>
+        ProxyCommand ssh -W %h:%p rhpc
+
       Host rhpc-gaia
         Hostname gaia
         User <enter your RHPC username>
@@ -232,13 +267,18 @@ Windows Powershell: To jump between rhpc servers
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
-      Host rhpc-mariecurie
-        Hostname mariecurie
+      Host rhpc-schrodinger
+        Hostname schrodinger
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
       Host rhpc-hamilton
         Hostname hamilton
+        User <enter your RHPC username>
+        ProxyCommand ssh -W %h:%p rhpc
+
+      Host rhpc-plato
+        Hostname plato
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 

@@ -74,7 +74,7 @@ then we modify the user by
    sacctmgr modify user where user=username set defaultaccount=two_gpu
 
 Afterward it is good practice to delete the user from the older account, otherwise,
-the user couls still append ``--Account=older_account`` when running jobs to circumvent limits.
+the user could still append ``--Account=older_account`` when running jobs to circumvent limits.
 
 .. code-block:: text
 

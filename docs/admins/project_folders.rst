@@ -1,6 +1,6 @@
-===================
+=========================
 Creating project folders
-===================
+=========================
 
 Assessing project folder request
 --------------------------------
@@ -40,7 +40,7 @@ Login into rhea, then run:
 ``create-project`` has a --help function.
 
 Modifying project folders
----------------------
+----------------------------
 You can change quotas and permissions for project folders using the following commands:
 
 Changing quotas

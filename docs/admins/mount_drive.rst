@@ -32,10 +32,22 @@ Next, we have to access the login node to add the mount
     
 Here we have to add the following just above # BEGIN ANSIBLE MANAGED JOB
 
-``<server_name>:/processing    /mnt/processing/<server_name>        nfs rsize=524288,wsize=524288,timeo=30,intr``
+.. code-block:: bash
+
+    <server_name>:/processing
+    /mnt/processing/<server_name>
+    nfs rsize=524288,wsize=524288,timeo=30,intr
 
 Subsequently mount the drive.
 
 .. code-block:: bash
 
     sudo mount -a
+
+Mount network drive
+^^^^^^^^^^^^^^^^^^^
+To mount a network drive use:
+
+.. code-block:: bash
+
+    sudo mount -t drvgs Z: image-group-teuwen/

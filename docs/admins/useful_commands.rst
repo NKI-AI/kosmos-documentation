@@ -11,6 +11,23 @@ Switch to user <username>:
    
    sudo -i -u <username>
 
+Home folders
+------------
+On rhea there is the create-home function (which has a --help
+function)
+
+To change quotas use:
+
+.. code-block:: bash
+
+    zfs set quota=10G project-pool/network_homes/<username>
+
+To look at quota use:
+
+.. code-block:: bash
+
+    zfs get (ref)quota project-pool/network_homes/<username>"
+
 Updating slurm parameters
 -------------------------
 To update slurm parameters like which gpu belongs to which qos and
