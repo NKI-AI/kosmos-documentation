@@ -31,3 +31,37 @@ When a node is in drain, you can use the following commands to get it out of dra
 .. code-block:: bash
 
     sudo scontrol update NodeName=<nodename> state=RESUME
+
+
+Homefolder is exceeding quota
+------------------------------
+Homefolder has 300G for homefolder and snapshots. It could be that
+the snapshots are taking up too much space. You can see snapshots
+on rhea by running the following command:
+
+.. code-block:: bash
+
+    zfs list -t snapshot project-pool/network_homes/<username>
+
+You can prune snapshots by using this code:
+:ref:'https://github.com/bahamas10/zfs-prune-snapshots/blob/master/zfs-prune-snapshots<https://github.com/bahamas10/zfs-prune-snapshots/blob/master/zfs-prune-snapshots>'
+
+To delete snapshots starting with monthly, older tahn 6 months in
+``project-pool/network_homes``, you can run the following command:
+.. code-block:: bash
+
+    zfs-prune-snapshots -p monthly 6M project-pool/network_homes
+
+Use ``zfs send`` and ``zfs receive`` to move the snapshots
+to another location. For example:
+
+.. code-block:: bash
+
+        zfs send project-pool/network_homes/${USER}@monthly-2024-02-01 > /mnt/to_tesla/${USER}
+
+See also write_to_tape.sh on rhea. Use this command to rebuild
+the filesystem:
+
+.. code-block:: bash
+
+    sudo zfs receive project-pool/projects/eric-zfs-receive-new < /project-pool/projects/eric-zfs-send/snap to rebuild the filesystem
