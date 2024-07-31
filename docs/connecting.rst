@@ -72,6 +72,11 @@ Ubuntu/WSL/MacOS: To jump between rhpc servers
      Compression yes
      ForwardX11 yes
 
+   Host rhpc-kosmos
+     Hostname kosmos
+     User <enter your RHPC username>
+     ProxyJump rhpc
+
    Host rhpc-gaia
      Hostname gaia
      User <enter your RHPC username>
@@ -221,6 +226,11 @@ Windows Powershell: To jump between rhpc servers
         ForwardAgent yes
         Compression yes
         ForwardX11 yes
+
+      Host rhpc-kosmos
+        User <username>
+        HostName kosmos
+        ProxyCommand ssh -W %h:%p rhpc
 
       Host rhpc-aristarchus
         User <username>
