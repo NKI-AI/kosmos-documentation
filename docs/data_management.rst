@@ -62,7 +62,16 @@ appropriate group. If there is an issue with this process, use the following com
 Private data
 ^^^^^^^^^^^^
 For private data directories, access is more complex and governed by IRB guidelines. Private datasets should be added to
-the appropriate ``/data/groups/<group>/`` directory, with ACLs set to reflect authorized access. By default, newly added
+the appropriate ``/data/groups/<group>/`` directory, with ACLs set to reflect authorized access.
+
+Unaltered datasets, so raw data as received from the datadesk, should be saved in ``/data/groups/<group>/archive``.
+
+For processed datasets please consider if they need saving or can easily be reprocessed from the original. If a
+processed version needs to be saved they should be organized in version-specific directories. These directories are saved
+in ``/data/groups/<group>/<project-name>/<version-name>``.
+
+
+By default, newly added
 private datasets should restrict access to the owner only. The owner is responsible for adjusting the ACLs to grant
 access to other approved users. It is the directory owner's responsibility to maintain and update the ACL to ensure that
 only authorized individuals have access.
