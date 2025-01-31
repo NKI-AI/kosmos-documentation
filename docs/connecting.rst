@@ -15,7 +15,16 @@ Here are the commands to login to the server:
 
 If you do this, you will be prompted to provide several passwords. First, it’s the two factors for ``rhpc.nki.nl`` `as described above <#ubuntu-nki-rhpc-ssh-passwords>`_. Then, the ``password`` is the concatenation of your set password and the 2FA code. So if your password is ``F00!b4r?`` and your 2fa code is ``123 123``\ , the password here would be ``F00!b4r?123123``.
 
-To connect to the servers with ssh (highly recommended)
+To connect to the servers with VPN
+-----------------------------------
+To connect to the server with VPN you can follow the following steps:
+1. Ask the rhpc-admin for a VPN certificate (\ `rhpc-admin@nki.nl <mailto:rhpc-admin@nki.nl>`_\ ). You will receive a .conf file.
+2. Download wireguard[https://www.wireguard.com/install/] and install it on your PC.
+3. Click on 'Import tunnel from file' and add the .conf file
+4. Activate the VPN
+5. You can now access the server by using the address ``<servername>.rhpc.nki.nl``
+
+To connect to the servers with ssh
 -------------------------------------------------------
 
 If you are a windows user, install windows subsystem for linux (wsl) or ubuntu. If you are planning to use Pycharm remote deployment (very likely), then also set up the connection through Windows Powershell as explained below. Do not use the MobaXterm option, as this is more difficult to set up and offers less benefits like the direct ssh connection or connecting to the servers through Pycharm.
@@ -292,7 +301,7 @@ Windows Powershell: To jump between rhpc servers
         User <enter your RHPC username>
         ProxyCommand ssh -W %h:%p rhpc
 
-   Save as ``config`` (no extention) in the ``C:/Users/your_username/.ssh`` directory.
+   Save as ``config`` (no extension) in the ``C:/Users/your_username/.ssh`` directory.
 
 #. 
    You will now be able to directly jump over the `rhpc.nki.nl <http://rhpc.nki.nl>`_ host by logging in for instance with ``ssh rhpc-ptolemaeus``.Also PyCharm remote deployment should work.
