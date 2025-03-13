@@ -13,3 +13,4 @@ Kosmos for administrators (root users)
    project_folders
    troubleshooting
    task_division
+   managing_acl
