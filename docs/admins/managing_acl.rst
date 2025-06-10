@@ -1,160 +1,197 @@
-===============================================================
-Administrator Guide: Managing ACLs for Data and Project Folders
-===============================================================
+==========================================
+Creating and Managing Storage
+==========================================
 
-This guide explains how to handle Access Control Lists (ACLs) for data and project
-folders using four custom commands: ``create-data-dir``, ``delete-data-dir``,
-``create-project`` and ``modify-acl``. These are available on kronos and rhea.
-These functions help set and manage permissions efficiently to ensure that
-only authorised users have access to private data, maintaining security and
-compliance. The owner of each private data and project folder is responsible
-for keeping ACLs up to date. If any changes are needed, owners can request
-modifications via ``#tech-kosmos-requests``.
+This guide provides instructions to **create, manage, and control access** to storage directories across `/home`, `/projects`, and `/data` using the provided admin scripts.
 
-Creating Data Directories
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Each script handles both **directory structure setup** and **access permissions using ACLs**, ensuring compliance with RHPC data management policies.
 
-To create a new data directory with the appropriate permissions and ACLs, use:
+------------------------
+Where to Run Each Script
+------------------------
 
-.. code-block:: bash
+Use the correct node depending on the type of storage:
 
-    create-data-dir -u username -g {radiology|aiforoncology} -d directoryname [-a user1,user2] [-m permission_mask]
+- **Run on rhea** for:
 
-Options:
+  - Home directories (`/home`)
+  - Project directories (`/projects`)
+  - ACL modifications for home or project folders
 
-+---------------+---------------------------------------------------------------------+
-| ``-u``        | Username of the owner                                               |
-+---------------+---------------------------------------------------------------------+
-| ``-g``        | Group name (must be radiology or aiforoncology                      |
-+---------------+---------------------------------------------------------------------+
-| ``-d``        | Name of the directory to create                                     |
-+---------------+---------------------------------------------------------------------+
-| ``-a``        | (optional) Comma-separated list of additional users to grant access |
-+---------------+---------------------------------------------------------------------+
-| ``-m``        | (optional) Permission mask (default: rwx if not provided)           |
-+---------------+---------------------------------------------------------------------+
-| ``-h, help``  + Show help message and exit                                          |
-+---------------+---------------------------------------------------------------------+
+- **Run on kronos** for:
 
-Examples:
+  - Data directories (`/data`)
+  - ACL modifications for archive/derived folders
 
-.. code-block:: bash
+---------------------------
+Scripts and Their Purpose
+---------------------------
 
-    # Create a private data directory named projectX for user alice under radiology with default permissions:
-    create-data-dir -u alice -g radiology -d projectX
+create-home
+===========
 
-    # Create a directory with specific access for bob and charlie:
-    create-data-dir -u alice -g aiforoncology -d projectY -a bob,charlie
+**Creates a home directory at `/home/<user>` with private access.**
 
-    # Create a directory with a custom permission mask:
-    create-data-dir -u alice -g radiology -d projectZ -m r-x
+**Run on:** `rhea`
 
-Deleting Data Directories
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Usage:**
+::
 
-To delete a data directory and its corresponding counterpart directories, use:
+    sudo create-home -u <username>
 
-.. code-block:: bash
+**Parameters:**
 
-    delete-data-dir -d path_to_directory [-f]
++------------+-----------+--------------------------------------------+
+| Parameter  | Required? | Description                                |
++============+===========+============================================+
+| -u         | Yes       | Username for the home dir                  |
++------------+-----------+--------------------------------------------+
+| -h, --help | No        | Show help message and exit                 |
++------------+-----------+--------------------------------------------+
 
-Options:
+- Initializes the user's personal space
+- Sets appropriate ownership and permissions
+- Access is private (ACL: owner only)
 
-+--------+----------------------------------------------------------+
-| ``-d``            | Absolute or relative path to the directory    |
-+--------+----------------------------------------------------------+
-| ``-f``            | (optional) Force delete without confimation   |
-+--------+----------------------------------------------------------+
-| ``-h, --help``    | Show help message and exit                    |
-+--------+----------------------------------------------------------+
+create-project
+==============
 
-Examples:
+**Creates a ZFS-backed project directory in `/project-pool/projects/`.**
 
-.. code-block:: bash
+**Run on:** `rhea`
 
-    # Delete a directory with confirmation:
-    delete-data-dir -d /data-pool/groups/beets-tan/archive/projectX
+**Usage:**
+::
 
-    # Force delete a directory without confirmation:
-    delete-data-dir -d /data-pool/groups/aiforoncology/archive/projectY -f
+    sudo create-project -p <project_name> -q <quota> -u <owner> [-a <users>] [-m <mask>]
 
-Creating a Project
-^^^^^^^^^^^^^^^^^^^
+**Parameters:**
 
-To create a new project by setting up a ZFS dataset with a specified quota, owner, and optional
-ACL entries for additional users, use:
++--------------+-----------+-------------------------------------------------+
+| Parameter    | Required? | Description                                     |
++==============+===========+=================================================+
+| -p, --project| Yes       | Project name                                    |
++--------------+-----------+-------------------------------------------------+
+| -q, --quota  | Yes       | Storage quota (e.g., 100G)                      |
++--------------+-----------+-------------------------------------------------+
+| -u, --user   | Yes       | Project owner username                          |
++--------------+-----------+-------------------------------------------------+
+| -a, --add    | No        | Additional users to grant access                |
++--------------+-----------+-------------------------------------------------+
+| -m, --mask   | No        | ACL mask value (e.g., rwx)                      |
++--------------+-----------+-------------------------------------------------+
+| -h, --help   | No        | Show help message and exit                     |
++--------------+-----------+-------------------------------------------------+
 
-.. code-block:: bash
+create-data-dir
+===============
 
-    create-project -p projectname -q quota -u owner [-a additional_users] [-m permission_mask]
+**Creates paired `archive/` and `derived/` directories under `/data-pool/groups/`, either private or public.**
 
-Options:
+**Run on:** ``kronos``
 
-+---------------+------------------------------------------------------------------------+
-| ``-p``        | Specify the project name (required)                                    |
-+---------------+------------------------------------------------------------------------+
-| ``-q``        | Specity the quota for the project (e.g., 10G) (required)               |
-+---------------+------------------------------------------------------------------------+
-| ``-u``        | Specify the owner user for the project (required)                      |
-+---------------+------------------------------------------------------------------------+
-| ``-a``        | (optional) Comma-separated list of additional users to add ACL entries |
-+---------------+------------------------------------------------------------------------+
-| ``-m``        | (optional) Permission mask for additional users (default: rwx)         |
-+---------------+------------------------------------------------------------------------+
-| ``-h, --help``| Show help message and exit                                             |
-+---------------+------------------------------------------------------------------------+
+**Usage:**
+::
 
-Examples:
+    sudo create-data-dir -u <owner> -d <dataset_name> -g <group> [-a <users>] [-m <mask>] [-p]
 
-.. code-block:: bash
+**Parameters:**
 
-        # Create a project with the required parameters:
-        create-project -p projectX -q 10G -u alice
++--------------+-----------+-------------------------------------------------------------+
+| Parameter    | Required? | Description                                                 |
++==============+===========+=============================================================+
+| -u, --user   | Yes       | Owner of the dataset                                        |
++--------------+-----------+-------------------------------------------------------------+
+| -d, --dir    | Yes       | Dataset name                                                |
++--------------+-----------+-------------------------------------------------------------+
+| -g, --group  | Yes       | Group name or `public` for open access                      |
++--------------+-----------+-------------------------------------------------------------+
+| -a, --add    | No        | Additional users to grant access                            |
++--------------+-----------+-------------------------------------------------------------+
+| -m, --mask   | No        | ACL mask value (e.g., rwx)                                  |
++--------------+-----------+-------------------------------------------------------------+
+| -p, --public | No        | Enables public mode with inherited ACLs                     |
++--------------+-----------+-------------------------------------------------------------+
+| -h, --help   | No        | Show help message and exit                                  |
++--------------+-----------+-------------------------------------------------------------+
 
-        # Create a project with additional ACL entries for extra users with read and execute permission:
-        create-project -p projectY -q 20G -u bob -a alice,carol -m r-x
+delete-project
+==============
 
-Modifying ACLs
-^^^^^^^^^^^^^^
+**Deletes a ZFS project dataset from `/project-pool/projects/`.**
 
-To modify ACLs for directories, use:
+**Run on:** `rhea`
 
-.. code-block:: bash
+**Usage:**
+::
 
-    modify-acl [OPTIONS]
+    sudo delete-project -p <project_name> [--force]
 
-Options:
+**Parameters:**
 
-+-----------------------+------------------------------------------------------------------------+
-| ``-d``                | Set the target directory (required)                                    |
-+-----------------------+------------------------------------------------------------------------+
-| ``-a``                | Add users (comma-separated) with specific permissions                  |
-+-----------------------+------------------------------------------------------------------------+
-| ``-r``                | Remove users (comma-separated) from ACL                                |
-+-----------------------+------------------------------------------------------------------------+
-| ``-m``                | Specify the permission mask (e.g., rwx)                                |
-+-----------------------+------------------------------------------------------------------------+
-| ``-c``                | Check ACL consistency across counterpart directories                   |
-+-----------------------+------------------------------------------------------------------------+
-| ``--no-recursive``    | Apply ACL changes without recursion                                    |
-+-----------------------+------------------------------------------------------------------------+
-| ``-h, --help``        | Show help message and exit                                             |
-+-----------------------+------------------------------------------------------------------------+
++--------------+-----------+--------------------------------------------+
+| Parameter    | Required? | Description                                |
++==============+===========+============================================+
+| -p, --project| Yes       | Project name to delete                     |
++--------------+-----------+--------------------------------------------+
+| -f, --force  | No        | Skip confirmation prompt                   |
++--------------+-----------+--------------------------------------------+
+| -h, --help   | No        | Show help message and exit                 |
++--------------+-----------+--------------------------------------------+
 
-Examples:
+delete-data-dir
+===============
 
-.. code-block:: bash
+**Deletes both `archive/` and `derived/` folders for a dataset.**
 
-        # Add users david and eva with full permissions to projectX:
-        modify-acl -d /data-pool/groups/beets-tan/archive/projectX -a david,eva -m rwx
+**Run on:** `kronos`
 
-        # Remove user frank from ACL of projectY:
-        modify-acl -d /data-pool/groups/aiforoncology/archive/projectY -r frank
+**Usage:**
+::
 
-        # Modify ACL without recursion:
-        modify-acl -d /data-pool/groups/beets-tan/archive/projectZ -a george -m r-- --no-recursive
+    sudo delete-data-dir -d <path> [--force]
 
-        # Check ACL consistency across archive and derived directories:
-        modify-acl -d /data-pool/groups/beets-tan/archive/projectX -c
+**Parameters:**
 
-Note: If the directory is within archive or derived, ACL modifications also apply to its counterpart.
++--------------+-----------+---------------------------------------------------------+
+| Parameter    | Required? | Description                                             |
++==============+===========+=========================================================+
+| -d, --dir    | Yes       | Relative or absolute path to archive or derived folder |
++--------------+-----------+---------------------------------------------------------+
+| -f, --force  | No        | Skip confirmation prompt                               |
++--------------+-----------+---------------------------------------------------------+
+| -h, --help   | No        | Show help message and exit                             |
++--------------+-----------+---------------------------------------------------------+
+
+modify-acl
+==========
+
+**Adds or removes user access to any directory using ACLs.**
+
+**Run on:** *kronos* or *rhea*
+
+**Usage:**
+::
+
+    sudo modify-acl -d <directory> [-a <users>] [-r <users>] [-m <mask>] [--no-counterpart]
+
+**Parameters:**
+
++--------------------+-----------+-------------------------------------------------------------+
+| Parameter          | Required? | Description                                                 |
++====================+===========+=============================================================+
+| -d, --dir          | Yes       | Path to the directory                                       |
++--------------------+-----------+-------------------------------------------------------------+
+| -a, --add          | No        | Users to add to ACL                                         |
++--------------------+-----------+-------------------------------------------------------------+
+| -r, --remove       | No        | Users to remove from ACL                                    |
++--------------------+-----------+-------------------------------------------------------------+
+| -m, --mask         | No        | ACL mask value (e.g., rwx)                                  |
++--------------------+-----------+-------------------------------------------------------------+
+| -c, --check        | No        | Verify and report current ACL settings                      |
++--------------------+-----------+-------------------------------------------------------------+
+| --no-counterpart   | No        | Skip updating paired `archive/` or `derived/` directory     |
++--------------------+-----------+-------------------------------------------------------------+
+| -h, --help         | No        | Show help message and exit                                  |
++--------------------+-----------+-------------------------------------------------------------+
+

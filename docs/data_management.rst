@@ -1,143 +1,258 @@
 .. _data_management:
 
-===============
-Data management
-===============
+===================
+Data Management Guide
+===================
+
 .. contents::
 
+This page explains where and how to store different types of data on the RHPC cluster. It outlines the purpose of each storage location, what should and should not be stored there, and how to request new space or manage access. Following these conventions keeps the system organized, efficient, and maintainable.
 
-Home folders
-------------
-Every user of the RHPC cluster has a personal home directory with a 100GB limit. Additionally, users may request project
-folders for project-specific data.
+Regardless of where data is stored, it is essential that **all data uploaded to the cluster is fully anonymized**. No personal identifiers should be present. Users are responsible for ensuring their data meets anonymization requirements **before** uploading.
 
-Personal home directories are located at ``/home/<user>``\ . The home folders are backed up daily and monthly. Backups
-can be found at ``/home/<user>/.zfs/snapshot``\ . Note that the ``/home/<user>/.zfs``\ folder may not appear when
-listing the contents of ``/home/<user>``\ , since it is a virtual directory. Simply running
+For any folder with restricted access (such as private project or data folders), the **initial owner is responsible** for keeping access up to date and ensuring only appropriate users can view or modify the content. See the section **Managing Data Access** for more details.
 
-.. code-block:: bash
+Folder Types Overview
+=====================
 
-    ls /home/<user>/.zfs
+There are three primary storage areas available on the cluster:
 
-will display the contents of this virtual directory. The snapshot directories are read-only, and reflect the state of
-the user's home folder at the time of the snapshot.
+1. **Home folders** – For personal configurations, tools, and environments
+2. **Project folders** – For project-specific code, results, logs, and configurations
+3. **Data folders** – For long-term storage of raw and processed datasets shared across projects
 
-Project folders
-----------------
+Home Folders
+^^^^^^^^^^^^^^^
 
-Project folders are located at ``/projects/<project_name>``\ . New project folders can be requested in the
-#tech-kosmos-requests Slack channel, following the predefined template (more information in the #tech-kosmos-requests
-channel in Slack.). When requesting project folders with capacities over 100GB, please provide a detailed reason
-(ideally involving a rough calculation) for the higher disk space requirements.
+These personal workspaces are created for each user by default and are accessible across all nodes. They are intended for storing user-specific configuration files, environments, and lightweight tools or scripts used across multiple projects.
 
-By default, no periodic snapshots are made of project folders. Project folder snapshotting is available upon request
---- for example, if you are nearing the end of a project and want to guard against accidental loss of vital project data.
-Such requests can be posted in the #tech-kosmos-requests Slack channel, as a reply to your original project folder
-request message.
+**Location**:
 
-Data folders
-------------
-Data folders are located at ``/data`` . Data folders are intended for storing public and private datasets, intended for
-use on the cluster. Permission is managed by Access Control Lists (ACLs) which provide more fine-grained control over
-file and directory permissions, ensuring data is accessible only to authorized individuals. These ACLs can be set for
-each file and directory on the server, allowing the owner to specify detailed permissions for users and groups based on
-access requirements.
+    ``/home/<user>``
 
-Public data
-^^^^^^^^^^^
-For directories containing public data, all groups should have default access. New public datasets must be added to
-``/data/groups/public/``: use ``archive`` for unaltered datasets and ``derived`` for modified datasets.
-Normally, the dataset and its contents are automatically assigned the correct ACLs, allowing access to anyone in the
-appropriate group. If there is an issue with this process, use the following command to set the ACLs manually:
+**Folder setup**:
+Created by default for each user with a limit of 150G. Access is limited to the user only. Daily and monthly snapshots are available at:
+    ``/home/<user>/.zfs/snapshot``
 
-.. code-block::
+**Examples of appropriate contents**:
 
-        # Manually set the ACLs for new public data recursively
-        setfacl -R -m mask::rwx -m user::rwx -m group::rwx -m
-        group:radiology:rwx -m group:teuwen-group:rwx -m other::--- -m
-        default:mask::rwx -m default:user::rwx -m default:group::r-x -m
-        default:group:radiology:rwx -m default:group:teuwen-group:rwx -m
-        default:other::--- /data/groups/public/<archive OR derived>/<new_dataset>
+    - Configuration files (e.g., ``.bashrc``, ``.gitconfig``)
+    - Miniconda or Python virtual environments
+    - Personal utility scripts (e.g., job submission helpers)
 
-Private data
-^^^^^^^^^^^^
-For private data directories, access is more complex and governed by IRB guidelines. Private datasets should be added to
-the appropriate ``/data/groups/<group>/`` directory, with ACLs set to reflect authorized access.
+**What not to store**:
 
-Unaltered datasets, so raw data as received from the datadesk, should be saved in ``/data/groups/<group>/archive``.
+    - Project-specific scripts, data, or outputs
+    - Large files or datasets
+    - Intermediate job results or temporary outputs
 
-For processed datasets please consider if they need saving or can easily be reprocessed from the original. If a
-processed version needs to be saved they should be organized in version-specific directories. These directories are saved
-in ``/data/groups/<group>/<project-name>/<version-name>``.
+Project Folders
+^^^^^^^^^^^^^^^^^^
+
+These locations support the active development and execution of research projects, including source code, logs, models, and other artifacts tied directly to a specific project.
+
+**Location**:
+
+    ``/projects/<project_name>``
+
+**Folder setup**:
+Project folders are created upon request and, by default, are accessible only to the requesting user. The folder owner is responsible for managing access for additional users. If multiple users will be collaborating, refer to the *Managing Data Access* section for guidance on setting correct permissions.
+
+To request a new project folder, post in the Slack channel ``#tech-kosmos-requests`` using the following template:
+
+::
+
+    Project name: <project_name>
+    Quota: <storage size>  (default: 100G)
+    Requires backups: yes / no
+    Owner: <username>
+    Additional users (optional): <user1>:<permissions>, <user2>:<permissions>, ...
+    Reason (optional):
+    <brief justification with a rough estimate or calculation if requesting more than 100G>
+
+**Examples of appropriate contents**:
+
+    - Project-specific codebases
+    - Input files like CSVs, JSON configs, and annotations tied to the project
+    - Output logs, model checkpoints, and performance metrics
+
+**Use of ``_data`` folder**:
+If your project involves large project-specific datasets or generates substantial intermediate data, request a dedicated ``_data`` folder (e.g., ``/projects/<project_name>_data``) to keep it separate from your code and configuration files:
+
+::
+
+    Request: Project data folder for <project_name>
+    Quota: <storage size>
+    Reason: <brief justification with a rough estimate or calculation>
+
+This folder is for **project-specific data only** — data tailored to or generated for your project and not intended for general reuse. Examples include:
+
+    - nnUNet-style configurations and splits specific to this project
+    - Project-specific modified versions of datasets from ``/data``
+    - Intermediate data created during preprocessing or transformation steps that take too long to regenerate
+
+This separation helps monitor storage usage and simplify cleanup. Ensure your project folder contains the pipeline or scripts required to regenerate the contents of the ``_data`` folder.
+
+**What not to store**:
+
+    - Shared long-term datasets used by multiple projects
+    - Personal configuration files or unrelated utilities
+
+Data Folders
+^^^^^^^^^^^^^^^
+
+Data folders store long-term datasets intended for use across multiple projects or users. They are meant for data that should be reusable, traceable, and centrally maintained over time.
+
+**Dataset organization**:
+Each dataset should be structured with two main subdirectories:
+
+- ``archive/`` — the original, unmodified data exactly as received
+- ``derived/`` — cleaned, reformatted, or annotated versions for reuse
+
+This structure promotes reproducibility and allows teams to build reliably on shared datasets. Detailed guidelines for each of these subdirectories are provided in the following sections.
+
+**Dataset access**:
+Datasets may be public or private:
+
+- **Public datasets** are open-access and available to all users. These typically come from public repositories or open collaborations.
+- **Private datasets** are access-limited to specific users or groups and may include in-house or licensed data.
+
+Private datasets must be stored under the group directory associated with the dataset owner's primary group. The dataset owner is responsible for maintaining up-to-date permissions. Refer to the *Managing Data Access* section for more information.
+
+**Location**:
+
+    - Public datasets:
+        ``/data/groups/public/archive/<dataset_name>/``
+        ``/data/groups/public/derived/<dataset_name>/``
+
+    - Private datasets:
+        ``/data/groups/<group>/archive/<dataset_name>/``
+        ``/data/groups/<group>/derived/<dataset_name>/``
+
+**Folder setup**:
+Data folders are created upon request via the ``#tech-kosmos-requests`` Slack channel. Public folders are accessible to all users. Private folders are restricted to authorized users as defined by the dataset owner.
+
+To request a new data folder, use the following template:
+
+::
+
+    Dataset name: <dataset_name>
+    Private: yes / no
+    Owner: <username>
+    Additional users (optional): <user1>:<permissions>, <user2>:<permissions>, ...
+    Data description: <short description or link to public dataset>
 
 
-By default, newly added
-private datasets should restrict access to the owner only. The owner is responsible for adjusting the ACLs to grant
-access to other approved users. It is the directory owner's responsibility to maintain and update the ACL to ensure that
-only authorized individuals have access.
+Archive
+"""""""
 
-Here are some basic commands that may be useful during the process:
+The ``archive/`` directory stores the raw, unaltered form of a dataset — exactly as it was received or downloaded. This content must remain unchanged to preserve the dataset’s provenance.
 
-- Viewing current ACL with ``getfacl``:
+**Locations**:
 
-.. code-block::
+    - ``/data/groups/public/archive/<dataset_name>``
+    - ``/data/groups/<group>/archive/<dataset_name>``
 
-        getfacl /path/to/directory
+**Guidelines**:
 
-- Add or remove user access recursively:
+    - Do not modify any files in ``archive/``
+    - Every dataset in ``archive/`` should have a corresponding ``derived/`` directory if used in processing
+    - Data must be reproducible — you should be able to re-download it from the original source (e.g., URL, DOI, accession)
 
-.. code-block::
+**Examples of appropriate contents**:
 
-        setfacl -R -m u:<username>:rwx /path/to/directory
-        setfacl -R -x u:<username> /path/to/directory
+    - Datasets from public repositories (e.g., TCIA, PhysioNet)
+    - Image annotations bundled with the original dataset
+    - Raw CSVs, XMLs, or JSON files from collaborators
 
-- Add or remove group access recursively:
+**What not to store in archive folders**:
 
-.. code-block::
+    - Cleaned, renamed, or transformed files
+    - Project-specific annotations or outputs
+    - Converted file formats (e.g., NIfTI copies of DICOMs)
 
-        setfacl -R -m g:<groupname>:rwx /path/to/directory
-        setfacl -R -x g:<groupname> /path/to/directory
+Derived
+"""""""
 
-- Set default ACL that will be inherited by new files created in the directory recursively:
+The ``derived/`` directory contains cleaned, reformatted, or annotated versions of datasets originally stored in ``archive/``. These are meant for cross-project analysis, modeling, or standardized workflows.
 
-.. code-block::
+**Locations**:
 
-        setfacl -R -m d:u:<username>:rwx -m d:g:<groupname>:rwx /path/to/directory
+    - ``/data/groups/public/derived/<dataset_name>/<subfolder>``
+    - ``/data/groups/<group>/derived/<dataset_name>/<subfolder>``
 
-Here is an end-to-end example of adding a new private dataset, ensuring that it is accesible by two specific users (in
-addition to the owner), and applying the appropriate ACLs:
+**Guidelines**:
 
-.. code-block::
+    - Use clear, separate subfolders for distinct processing steps (e.g., ``converted_nifti``)
+    - Avoid mixing unrelated outputs
+    - Try to include metadata or scripts to make processing reproducible
 
-        # 1. Create the directory for the new dataset
-        mkdir -p /data/groups/<group>/<new_dataset>
+**Examples of appropriate contents**:
 
-        # 2. Upload the dataset
-        # Add data in appropriate way
+    - Converted file formats (e.g., DICOM to NIfTI)
+    - Additional segmentation masks or annotations
 
-        # 3. Set ACLs to grant access to bob and carol, and restrict access for others, while setting these as the default for new files created in the dataset
-        setfacl -R -m u:bob:rwx -m u:carol:rwx -m g::--- -m o::--- -m d:u:bob:rwx -m d:u:carol:rwx -m d:g::--- -m d:o::--- /data/groups/<group>/<new_dataset>
+**What not to store in derived folders**:
 
-        # 4. Verify the ACL settings
-        getfacl /data/groups/<group>/<new_dataset>
+    - Project-specific logs, results, or temporary files
+    - Intermediate data not meant for reuse
+    - Personal scripts, tools, or environments
 
-The resulting ACL wil indicatie that only the owner, Bob, and Carol have access to the directory and its contents:
+Managing Data Access
+============================
 
-.. code-block::
+Access to private datasets is the responsibility of the initial dataset owner. They must:
 
-        # file: /data/groups/<group>/<new_dataset>
-        # owner: <owner>
-        # group: <owner>
-        user::rwx
-        user:bob:rwx
-        user:carol:rwx
-        group::---
-        mask::rwx
-        other::---
+    - Ensure the correct users have access
+    - Request access updates via ``#tech-kosmos-requests``
+    - Communicate clearly when permissions need to be removed or changed
 
-        default:user::rwx
-        default:user:bob:rwx
-        default:user:carol:rwx
-        default:group::---
-        default:mask::rwx
-        default:other::---
+All access changes are applied by the admin team. Users must not attempt to modify folder permissions directly.
+
+To check who currently has access to a folder, use the ``getfacl`` command:
+
+::
+
+    getfacl /path/to/folder
+
+This shows permission entries like:
+
+::
+
+    # file: /path/to/folder
+    # owner: user1
+    # group: group1
+    user::rwx
+    user:user2:r-x
+    group::r-x
+    group:group2:r--
+    mask::rwx
+    other::---
+
+This means:
+
+- ``user::rwx`` — the owner has full access
+- ``user:user2:r-x`` — user2 has read and execute access
+- ``group::r-x`` — the default group (group1) has read/execute
+- ``group:group2:r--`` — users in group2 have read-only access
+- ``other::---`` — others have no access
+
+To request an ACL update, post the following in ``#tech-kosmos-requests``:
+
+::
+
+    Request: ACL update for /data/groups/<group>/<dataset_name> or /projects/<project_name>
+    Add users (optional): <user1>:<permissions>, <user2>:<permissions>, ...
+    Remove users (optional): <user3>:<permissions>, <user4>:<permissions>, ...
+
+
+**Permissions**
+
+    - Use standard `r` (read), `w` (write), `x` (execute) flags.
+    - Combine as needed (e.g., `rw`, `rwx`).
+    - If not specified, default is `rwx`.
+
+Need Help?
+==========
+
+If you’re unsure where to store your data or whether it should be public or private, feel free to ask in ``#tech-hpc-cluster`` or reach out to the RHPC admin team on Slack.
