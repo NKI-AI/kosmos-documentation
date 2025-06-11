@@ -36,7 +36,7 @@ viewdocs:
 	$(BROWSER) kosmos/index.html
 
 uploaddocs: docs # Compile the docs
-	rsync -avh kosmos/* docs@aiforoncology.nl:/var/www/html/kosmos --delete
+	rsync -avh kosmos/* docs@aiforoncology.nl:/var/www/html/docs/kosmos --delete
 
 servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
