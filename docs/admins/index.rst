@@ -10,7 +10,6 @@ Kosmos for administrators (root users)
    zfs_mounts
    zfs_snapshots
    cluster_maintenance
-   project_folders
    troubleshooting
    task_division
    managing_acl

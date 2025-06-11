@@ -1,8 +1,8 @@
 .. _data_management:
 
-===================
-Data Management Guide
-===================
+=====================
+Data management guide
+=====================
 
 .. contents::
 
@@ -32,6 +32,7 @@ These personal workspaces are created for each user by default and are accessibl
 
 **Folder setup**:
 Created by default for each user with a limit of 150G. Access is limited to the user only. Daily and monthly snapshots are available at:
+
     ``/home/<user>/.zfs/snapshot``
 
 **Examples of appropriate contents**:

@@ -1,6 +1,6 @@
-==========================================
-Creating and Managing Storage
-==========================================
+=======================================================
+Creating and managing storage (home, project, and data)
+=======================================================
 
 This guide provides instructions to **create, manage, and control access** to storage directories across `/home`, `/projects`, and `/data` using the provided admin scripts.
 
