@@ -436,3 +436,17 @@ Both ``create-data-dir`` and ``delete-data-dir`` support subdirectories:
 - Use ``-s subdir`` flag to specify subdirectory
 - Or include path in directory name: ``subdir/dirname``
 - Works with both relative and absolute paths for deletion
+
+
+----------------------------------------
+Tape backup for homefolders and projects
+----------------------------------------
+
+For homefolders snapshots are taken weekly and monthly, these snapshots are being written to tape in irregular intervals. To initiate a backup ask Ameer first. Previous backup overview:
+
++---------------------+---------------------------------------------+---------------------------------------+
+| Date                | What                                        | Notes                                 |
++=====================+=============================================+=======================================+
+| 23-09-2025          | Full backup of homefolders                  | Not confirmed done by Ameer           |
+| 04-10-2024          | Snapshots of homefolders and projects < 1TB | Confirmed and written to tape         |
++---------------------+---------------------------------------------+---------------------------------------+
