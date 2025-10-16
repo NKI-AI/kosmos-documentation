@@ -26,3 +26,6 @@ The process of creating tape backups is as follows:
 3. If written to the folder mention to Ameer and he will write the data to tape.
 
 4. Verify with Ameer that the data has been written to tape.
+
+
+Contact person and responsible for doing tape backups is Marek Oerlemans, reachable via nki-ai slack, teams or email.
