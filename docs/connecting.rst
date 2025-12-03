@@ -24,6 +24,15 @@ To connect to the server with VPN you can follow the following steps:
 4. Activate the VPN
 5. You can now access the server by using the address ``<servername>.rhpc.nki.nl``
 
+.. important::
+
+   Kosmos is the interactive login node for the cluster. After enabling the
+   WireGuard VPN connect with ``ssh kosmos`` and manage workloads from there.
+   All compute nodes (gaia, euctemon, herakles, etc.) must be accessed through
+   Slurm allocations—see :ref:`Slurm usage guide <slurm-usage-guide>` for the
+   required commands. The old ProxyJump route via ``rhpc`` is no longer
+   available, so keep the VPN active for the full duration of your ssh session.
+
 To connect to the servers with ssh
 -------------------------------------------------------
 
@@ -62,98 +71,95 @@ Ubuntu/WSL: Connect to rhpc
 
 You should now be able to connect to the rhpc server via ssh without a password after the rhpc admins add your ssh key to the cluster. Test this with command: ``ssh rhpc``
 
-Ubuntu/WSL/MacOS: To jump between rhpc servers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Ubuntu/WSL/MacOS: Configure direct RHPC shortcuts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 #. Create an ssh config file in ``~/.ssh/config``\ , with the following information:
 
-.. code-block:: java
+.. code-block:: shell
 
    ControlMaster auto
    ControlPath <your home folder on local machine>/.ssh/tmp/%h_%p_%r
 
    Host rhpc
-     User <enter your RHPC username>
      HostName rhpc.nki.nl
+     User <enter your RHPC username>
      ServerAliveInterval 60
      ForwardAgent yes
      Compression yes
      ForwardX11 yes
 
-   Host rhpc-kosmos
-     Hostname kosmos
+   # Login node
+   Host kosmos
+     HostName kosmos
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-gaia
-     Hostname gaia
+   # CPU node
+   Host gaia
+     HostName gaia
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-euctemon
-     Hostname euctemon
+   # GPU/accelerator nodes
+   Host euctemon
+     HostName euctemon
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-galileo
-     Hostname galileo
+   Host eudoxus
+     HostName eudoxus
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-herakles
-     Hostname herakles
+   Host aristarchus
+     HostName aristarchus
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-plato
-     Hostname plato
+   Host galileo
+     HostName galileo
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-schrodinger
-     Hostname schrodinger
+   Host ptolemaeus
+     HostName ptolemaeus
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-ptolemaeus
-     Hostname ptolemaeus
+   Host herakles
+     HostName herakles
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-aristarchus
-     Hostname aristarchus
+   Host mariecurie
+     HostName mariecurie
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-eudoxus
-     Hostname eudoxus
+   Host alanturing
+     HostName alanturing
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-alanturing
-     Hostname alanturing
+   Host hamilton
+     HostName hamilton
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-roentgen
-     Hostname roentgen
+   Host carlos
+     HostName carlos
      User <enter your RHPC username>
-     ProxyJump rhpc
 
-   Host rhpc-hamilton
-     Hostname hamilton
+   Host plato
+     HostName plato
      User <enter your RHPC username>
-     ProxyJump rhpc
 
+   Host schrodinger
+     HostName schrodinger
+     User <enter your RHPC username>
 
-2. chmod 600 config
+   Host roentgen
+     HostName roentgen
+     User <enter your RHPC username>
+
+2. Run ``chmod 600 ~/.ssh/config`` to secure the file.
 
 3. Create a ``~/.ssh/tmp`` folder and give proper permissions (chmod 700).
 
 4. Also give proper permissions to your RSA key with ``chmod 600 ~/.ssh/id_rsa`` and ``chmod 600 ~/.ssh/id_rsa.pub``.
 
-You will then be able to directly jump over the `rhpc.nki.nl <http://rhpc.nki.nl>`_ host by logging in for instance with ``ssh rhpc-ptolemaeus``. Also PyCharm remote deployment should work.
+With the VPN connected you can now reach any machine directly, e.g. ``ssh kosmos`` or ``ssh galileo``. PyCharm remote deployment keeps working with this configuration.
 
 Connect to rhpc with Windows Powershell (necessary for PyCharm Remote Deployment):
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -219,8 +225,8 @@ Connect to rhpc with Windows Powershell (necessary for PyCharm Remote Deployment
 
 You should now be able to connect to the rhpc server via ssh without a password after the rhpc admins add your ssh key to the cluster. Test this with command: ``ssh rhpc``
 
-Windows Powershell: To jump between rhpc servers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Windows Powershell: Configure direct RHPC shortcuts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 #. 
@@ -236,75 +242,73 @@ Windows Powershell: To jump between rhpc servers
         Compression yes
         ForwardX11 yes
 
-      Host rhpc-kosmos
+      # Login node
+      Host kosmos
         User <username>
         HostName kosmos
-        ProxyCommand ssh -W %h:%p rhpc
 
-      Host rhpc-aristarchus
+      # CPU node
+      Host gaia
+        User <username>
+        HostName gaia
+
+      # GPU/accelerator nodes
+      Host euctemon
+        User <username>
+        HostName euctemon
+
+      Host eudoxus
+        User <username>
+        HostName eudoxus
+
+      Host aristarchus
         User <username>
         HostName aristarchus
-        ProxyCommand ssh -W %h:%p rhpc
 
-      Host rhpc-ptolemaeus
+      Host galileo
+        User <username>
+        HostName galileo
+
+      Host ptolemaeus
         User <username>
         HostName ptolemaeus
-        ProxyCommand ssh -W %h:%p rhpc
 
-      Host rhpc-eudoxus
-        Hostname eudoxus
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
+      Host herakles
+        User <username>
+        HostName herakles
 
-      Host rhpc-euctemon
-        Hostname euctemon
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
+      Host mariecurie
+        User <username>
+        HostName mariecurie
 
-      Host rhpc-galileo
-        Hostname galileo
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
+      Host alanturing
+        User <username>
+        HostName alanturing
 
-      Host rhpc-herakles
-        Hostname herakles
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
+      Host hamilton
+        User <username>
+        HostName hamilton
 
-      Host rhpc-gaia
-        Hostname gaia
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
+      Host carlos
+        User <username>
+        HostName carlos
 
-      Host rhpc-alanturing
-        Hostname alanturing
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
+      Host plato
+        User <username>
+        HostName plato
 
-      Host rhpc-roentgen
-        Hostname roentgen
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
+      Host schrodinger
+        User <username>
+        HostName schrodinger
 
-      Host rhpc-schrodinger
-        Hostname schrodinger
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
-
-      Host rhpc-hamilton
-        Hostname hamilton
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
-
-      Host rhpc-plato
-        Hostname plato
-        User <enter your RHPC username>
-        ProxyCommand ssh -W %h:%p rhpc
+      Host roentgen
+        User <username>
+        HostName roentgen
 
    Save as ``config`` (no extension) in the ``C:/Users/your_username/.ssh`` directory.
 
 #. 
-   You will now be able to directly jump over the `rhpc.nki.nl <http://rhpc.nki.nl>`_ host by logging in for instance with ``ssh rhpc-ptolemaeus``.Also PyCharm remote deployment should work.
+   With the VPN active you can now connect directly, for example ``ssh kosmos``. PyCharm remote deployment works with this setup as well.
 
 Not recommended: Option to manually add ssh keys to the rhpc server:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
