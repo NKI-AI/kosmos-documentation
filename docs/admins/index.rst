@@ -13,3 +13,4 @@ Kosmos for administrators (root users)
    troubleshooting
    task_division
    managing_acl
+   patch_monday
